@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Version 1.0.0 -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:layout_marginTop="9dp"
+	android:layout_marginBottom="5dp"
+	android:layout_marginLeft="3dp"
+	android:layout_marginRight="3dp"
+	>
+	<ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="5dp"
+		android:paddingTop="5dp"
+		android:src="@drawable/widget_note" />
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"
+		android:background="@drawable/widget_bg"
+		>
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:orientation="horizontal"
+			>
+			<TextView android:id="@+id/wTitle"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:ellipsize="end"
+				android:singleLine="true"
+				android:textSize="14dp"
+				android:textColor="#484848"
+				android:text="@string/currentTone" />
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:orientation="horizontal"
+			>
+			<ImageButton android:id="@+id/wPlay"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:src="@drawable/widget_play_btn"
+				android:scaleType="fitCenter"
+				android:background="@android:color/transparent" />
+			<ImageButton android:id="@+id/wNext"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_weight="1"
+				android:src="@drawable/widget_next_btn"
+				android:scaleType="fitCenter"
+				android:background="@android:color/transparent" />
+		</LinearLayout>
+	</LinearLayout>
+</FrameLayout>

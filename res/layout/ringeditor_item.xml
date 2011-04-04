@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Version 2.0.0 -->
+
+<ImageButton xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/editItemPlayButton"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_gravity="right"
+	android:gravity="right"
+	android:background="@android:color/transparent"
+	android:src="@drawable/widget_play_btn" />

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Version 2.0.0 -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#fafafa"
+	>
+	<TextView android:id="@+id/editTV"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:textColor="#484848"
+		android:text="@string/instructions" />
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/editTV"
+		android:layout_marginTop="5dp"
+		>
+		<LinearLayout android:id="@+id/editCheckHolder"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			>
+			</LinearLayout>
+	</ScrollView>
+</RelativeLayout>

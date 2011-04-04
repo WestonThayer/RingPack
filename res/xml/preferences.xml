@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Version 2.0.0 -->
+<!-- Version 2.1.0 -->
+	<!-- Removed modes -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="Playback Settings">
+		<CheckBoxPreference
+			android:title="@string/aboutTitle"
+			android:defaultValue="true"
+			android:summary="@string/aboutContents"
+			android:key="SHOW_ABOUT_PREF" />
+		<CheckBoxPreference
+			android:title="@string/shuffleTitle"
+			android:defaultValue="true"
+			android:summary="@string/shuffleContents"
+			android:key="SHUFFLE_PREF" />
+		<CheckBoxPreference
+			android:title="@string/lockTitle"
+			android:defaultValue="false"
+			android:summary="@string/lockContents"
+			android:key="LOCK_PREF" />
+		<CheckBoxPreference
+			android:title="@string/accessTitle"
+			android:defaultValue="false"
+			android:summary="@string/accessContents"
+			android:key="ACCESS_PREF" />
+		<!--<ListPreference
+			android:dependency="ACCESS_PREF"
+			android:title="@string/accessPkgsTitle"
+			android:summary="@string/accessPkgsContents"
+			android:key="ACCESS_PKGS_PREF"
+			android:defaultValue="ALL_PKGS"
+			android:entries="@array/pkgEntries"
+			android:entryValues="@array/pkgValues" />-->
+	</PreferenceCategory>
+</PreferenceScreen>

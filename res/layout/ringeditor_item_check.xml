@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Version 2.0.0 -->
+
+<CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/editItemCheckBox"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_gravity="left"
+	android:gravity="left"
+	android:checked="true"
+	android:textColor="#000"
+	android:button="@drawable/check_btn" />

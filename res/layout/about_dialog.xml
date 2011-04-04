@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	>
+	<ScrollView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		>
+		<RelativeLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			>
+			<TextView android:id="@+id/about1"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:textStyle="bold"
+				android:textColor="#fafafa"
+				android:textSize="20dp"
+				android:text="@string/about1" />
+			<TextView android:id="@+id/about2"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/about1"
+				android:padding="5dp"
+				android:gravity="left"
+				android:textColor="#a0a0a0"
+				android:textSize="12dp"
+				android:text="@string/about2" />
+			<TextView android:id="@+id/about3"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/about2"
+				android:padding="5dp"
+				android:gravity="center"
+				android:textColor="#31dbff"
+				android:textSize="12dp"
+				android:text="@string/about3" />
+			<TextView android:id="@+id/about4"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/about3"
+				android:padding="5dp"
+				android:gravity="center"
+				android:textStyle="bold"
+				android:textColor="#fafafa"
+				android:textSize="16dp"
+				android:text="@string/about4" />
+			<RelativeLayout android:id="@+id/aboutTable"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/about4"
+				>
+				<TableLayout
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:shrinkColumns="2"
+					>
+					<TableRow>
+						<TextView
+							android:padding="5dp"
+							android:layout_column="1"
+							android:text="•" />
+						<TextView
+							android:padding="5dp"
+							android:layout_column="2"
+							android:textColor="#a0a0a0"
+							android:textSize="12dp"
+							android:text="@string/about5_1" />
+					</TableRow>
+					<TableRow>
+						<TextView
+							android:padding="5dp"
+							android:layout_column="1"
+							android:text="•" />
+						<TextView
+							android:padding="5dp"
+							android:layout_column="2"
+							android:textColor="#a0a0a0"
+							android:textSize="12dp"
+							android:text="@string/about5_2" />
+					</TableRow>
+					<TableRow>
+						<TextView
+							android:padding="5dp"
+							android:layout_column="1"
+							android:text="•" />
+						<TextView
+							android:padding="5dp"
+							android:layout_column="2"
+							android:textColor="#a0a0a0"
+							android:textSize="12dp"
+							android:text="@string/about5_3" />
+					</TableRow>
+					<TableRow>
+						<TextView
+							android:padding="5dp"
+							android:layout_column="1"
+							android:text="•" />
+						<TextView
+							android:padding="5dp"
+							android:layout_column="2"
+							android:textColor="#a0a0a0"
+							android:textSize="12dp"
+							android:text="@string/about5_4" />
+					</TableRow>
+					<TableRow>
+						<TextView
+							android:padding="5dp"
+							android:layout_column="1"
+							android:text="•" />
+						<TextView
+							android:padding="5dp"
+							android:layout_column="2"
+							android:textColor="#a0a0a0"
+							android:textSize="12dp"
+							android:text="@string/about5_5" />
+					</TableRow>
+					<TableRow>
+						<TextView
+							android:padding="5dp"
+							android:layout_column="1"
+							android:text="•" />
+						<TextView
+							android:padding="5dp"
+							android:layout_column="2"
+							android:textColor="#a0a0a0"
+							android:textSize="12dp"
+							android:text="@string/about5_6" />
+					</TableRow>
+				</TableLayout>
+			</RelativeLayout>
+			<TextView android:id="@+id/about6"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/aboutTable"
+				android:padding="5dp"
+				android:gravity="center"
+				android:textStyle="bold"
+				android:textColor="#fafafa"
+				android:textSize="16dp"
+				android:text="@string/about6" />
+			<TextView android:id="@+id/about7"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/about6"
+				android:padding="5dp"
+				android:gravity="left"
+				android:textColor="#a0a0a0"
+				android:textSize="12dp"
+				android:text="@string/about7" />
+			</RelativeLayout>
+	</ScrollView>
+	<CheckBox android:id="@+id/aboutCheckBox"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/about9" />
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		>
+		<Button android:id="@+id/aboutOkButton"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:text="@string/ok" />
+		<Button android:id="@+id/aboutWebButton"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:text="@string/about8" />
+	</LinearLayout>
+</LinearLayout>

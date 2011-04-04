@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Verison 2.0.0 -->
+<!-- Version 2.0.1
+	Added nullTonesError to RingService
+	Change log -->
+<!-- Version 2.1.0 -->
+	<!-- Removed mode strings -->
+
+<resources>
+    <string name="ringActivityName">RingPack</string>
+    <string name="ringEditorName">Edit Pack</string>
+    <string name="prefName">Preferences</string>
+    <string name="widgetName">RingPack (2x1)</string>
+    
+    <!-- RingService -->
+    <string name="mediaMountedReadOnly">RingPack: SD Mounted Read Only</string>
+    <string name="mediaRemoved">RingPack: SD Removed</string>
+    <string name="mediaShared">RingPack: SD Shared</string>
+    <string name="mediaUnmounted">RingPack: SD Unmounted</string>
+    <string name="packSet">Pack Set</string>
+    <string name="packSetProgressTitle">Working...</string>
+    <string name="packSetProgressContents">Setting ringtone</string>
+    <string name="nullTonesError">RingPack Error: Please switch packs.</string>
+    
+    <!-- RingActivity -->
+    <string name="malletPack">Mallet Pack</string>
+    <string name="ok">Ok</string>
+    <string name="sdError">SD Error</string>
+    <string name="sdErrorContents">
+    	Your SD card is not currently mounted. RingPack requires an SD card
+    	to function.
+    </string>
+    <string name="firstRunProgressTitle">Working...</string>
+    <string name="firstRunProgressContents">Adding included packs</string>
+    <string name="layoutProgressTitle">Working...</string>
+    <string name="layoutProgressContents">Finding all packs</string>
+    <string name="nonePack">None</string>
+    <string name="installed">Installed Packs</string>
+    <string name="getMore">Get More!</string>
+    <string name="scanInfoError">Scanning Error</string>
+    <string name="scanInfoErrorContents">
+    	Scanning has failed! Please correct the error by conforming to the 
+    	specs posted on cryclops.com and try again.
+    	The file "info.txt" was not found in the directory 
+    </string>
+    <string name="scanSizeError">Scanning Error</string>
+    <string name="scanSizeErrorContents">
+    	Scanning has failed! Please correct the error by conforming to the 
+    	specs posted on cryclops.com and try again.
+    	The size field in file "info.txt" probably doesn\'t match up with the 
+    	number of listed tones. Or it could be a parsing error. Directory 
+    </string>
+    <string name="ringPackDisabled">RingPack Disabled</string>
+    <string name="aiDelete">delete</string>
+    <string name="aiEdit">edit</string>
+    <string name="deleteProgressTitle">Working...</string>
+    <string name="deleteProgressContents">Deleting the pack</string>
+    <string name="deleteError">Deletion Error</string>
+    <string name="deleteErrorContents">
+    	Deletion of this pack has failed due to there being no such directory!
+    </string>
+    <string name="deleteErrorContents2">
+    	Deletion of this pack has failed due to Java error!
+    </string>
+    <string name="aboutDialog">About</string>
+    <string name="deleteConfirmDialog">Confirm Delete</string>
+    <string name="deleteConfirmDialogContents">
+    	Are you sure you want to remove this pack from your phone? Remember, you
+    	can always reinstall packs by re-downloading them from the Market, then
+    	launching them.
+    </string>
+    <string name="cancel">Cancel</string>
+    
+    <!-- About Dialog -->
+    <string name="about1">Welcome to RingPack!</string>
+    <string name="about2">
+    	If you\'ve ever gotten annoyed with hearing the same repetitive sound
+    	every time you get a text, this app is for you.\n\n
+    	Select an installed pack. That\'s it! Now every time you receive
+    	a text message, you will hear a different, refreshing ringtone.
+    	Don\'t worry, the ringtone you hear when people call you will remain
+    	untouched. Your text ringtones won\'t make you think someone else got a
+    	text either.
+    	Instead, RingPack chooses ringtones from the pack you
+    	selected. Each pack holds ringtones that sound similar, but
+    	differ in subtle ways.
+    </string>
+    <string name="about3">Refreshing. RingPack.</string>
+    <string name="about4">Tips</string>
+    <string name="about5_1">
+    	You can install more packs from the Android Market by clicking the
+    	"Get More!" button.
+    </string>
+    <string name="about5_2">
+    	Longpress any 3rd party packs to delete them.
+    </string>
+    <string name="about5_3">
+    	Scan for new packs, or if you experience errors (MENU key -> Scan for Packs).
+    </string>
+    <string name="about5_4">
+    	There\'s a widget! Longpress on your homescreen to add it.
+    </string>
+    <string name="about5_5">
+    	You can rotate on incoming Google Voice and Talk messages if you enable
+    	the Accessibility Hack. You must enable the check in
+    	RingPack\'s settings and on your phone in Settings -> Accessiblity ->
+    	RingPack.
+    </string>
+    <string name="about5_6">
+    	Go to Settings (MENU key -> Settings) to re-enable this message at
+    	start-up. You can also change ringtone rotation settings and enable
+    	more features.
+    </string>
+    <string name="about6">Change Log</string>
+    <string name="about7">
+    	Version 2.0.0 - Full stable release\n
+    	Version 2.0.1 - Minor bug fixes\n
+    	Version 2.1.0 - Fixed FC\'s caused by memory limited phones, code clean
+    	up, fixed volume key action in editing screen, doesn\'t keep resetting
+    	to "none" pack when editing current pack.
+    </string>
+    <string name="about8">Website</string>
+    <string name="about9">Show this dialog on start-up</string>
+    
+    <!-- Options Menu -->
+    <string name="optionScan">Scan for Packs</string>
+    <string name="optionAbout">About</string>
+    <string name="optionSettings">Settings</string>
+    
+    <!-- Preferences -->
+    <string name="aboutTitle">Show About Dialog</string>
+    <string name="aboutContents">
+    	If checked, displays the About Dialog on start-up.
+    </string>
+    <string name="shuffleTitle">Shuffle</string>
+    <string name="shuffleContents">
+    	If checked, rotates through pack tones in a random order.
+    </string>
+    <string name="lockTitle">Lock</string>
+    <string name="lockContents">
+    	Disables tone rotation.
+    </string>
+    <string name="accessTitle">Accessibility Hack</string>
+    <string name="accessContents">
+    	Allows RingPack to rotate based on incoming Google Voice and Talk messages.
+    	Enable here and via Settings->Accessibility->RingPack.
+    </string>
+    
+    <!-- RingEditor -->
+    <string name="instructions">
+    	Only ringtones with checks beside them will be played. Use this if you
+    	would like to narrow down the rotatable ringtones within a pack, or just
+    	to check out how they sound!
+    </string>
+    <string name="initProgressTitle">Working...</string>
+    <string name="initProgressContents">Finding tones...</string>
+    
+    <!-- Widget -->
+    <string name="currentTone">...</string>
+    <string name="disabled">no pack selected</string>
+</resources>
