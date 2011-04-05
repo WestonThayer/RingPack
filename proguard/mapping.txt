@@ -1,0 +1,290 @@
+com.cryclops.ringpack.DbManager -> com.cryclops.ringpack.b:
+    com.cryclops.ringpack.DbManager$DatabaseHelper dbHelper -> a
+    android.database.sqlite.SQLiteDatabase db -> b
+    android.content.Context mCtx -> c
+    com.cryclops.ringpack.DbManager open() -> a
+    void close() -> b
+    void deleteAll() -> c
+    int createPack(java.lang.String,java.lang.String,boolean,int) -> a
+    int createTone$3965505c(long,java.lang.String,java.lang.String) -> a
+    android.database.Cursor fetchAllPacks() -> d
+    android.database.Cursor fetchPackTones(int) -> a
+    android.database.Cursor fetchPack(int) -> b
+    android.database.Cursor fetchPack(java.lang.String) -> a
+    android.database.Cursor fetchTone(int) -> c
+    boolean updatePack(int,boolean) -> a
+    boolean updateTone(int,boolean) -> b
+com.cryclops.ringpack.DbManager$DatabaseHelper -> com.cryclops.ringpack.d:
+    void onCreate(android.database.sqlite.SQLiteDatabase) -> onCreate
+    void onUpgrade(android.database.sqlite.SQLiteDatabase,int,int) -> onUpgrade
+com.cryclops.ringpack.Preferences -> com.cryclops.ringpack.Preferences:
+    void onCreate(android.os.Bundle) -> onCreate
+com.cryclops.ringpack.RingAccessService -> com.cryclops.ringpack.RingAccessService:
+    boolean firstRun -> a
+    void onServiceConnected() -> onServiceConnected
+    void onAccessibilityEvent(android.view.accessibility.AccessibilityEvent) -> onAccessibilityEvent
+    void onInterrupt() -> onInterrupt
+com.cryclops.ringpack.RingActivity -> com.cryclops.ringpack.RingActivity:
+    com.cryclops.ringpack.DbManager db -> a
+    android.app.AlertDialog$Builder mBuilder -> b
+    android.app.AlertDialog$Builder mBuilder2 -> c
+    android.app.ProgressDialog progressDialog -> d
+    android.app.Dialog dialog -> e
+    int currentPackId -> f
+    int pid -> g
+    android.widget.RadioGroup installedPacks -> h
+    android.widget.Button getMoreButton -> i
+    boolean settingUp -> j
+    boolean firstRunOverride -> k
+    boolean showAboutOverride -> l
+    com.cryclops.ringpack.actionitems.QuickAction qa -> m
+    android.os.Handler firstRunHandler -> n
+    android.os.Handler radioHandler -> o
+    android.os.Handler layoutHandler -> p
+    android.os.Handler packDeleteHandler -> q
+    void onCreate(android.os.Bundle) -> onCreate
+    void postSd() -> a
+    void initLayout() -> b
+    void onDestroy() -> onDestroy
+    boolean onCreateOptionsMenu(android.view.Menu) -> onCreateOptionsMenu
+    boolean onOptionsItemSelected(android.view.MenuItem) -> onOptionsItemSelected
+    boolean isFirstRun() -> c
+    boolean deleteDirectory(java.io.File) -> a
+    void setPackToNone() -> d
+    void showAboutDialog() -> e
+    android.app.ProgressDialog access$0(com.cryclops.ringpack.RingActivity) -> a
+    void access$1(com.cryclops.ringpack.RingActivity) -> b
+    android.widget.RadioGroup access$2(com.cryclops.ringpack.RingActivity) -> c
+    void access$3(com.cryclops.ringpack.RingActivity,android.widget.Button) -> a
+    android.widget.Button access$4(com.cryclops.ringpack.RingActivity) -> d
+    void access$5(com.cryclops.ringpack.RingActivity,boolean) -> a
+    android.app.AlertDialog$Builder access$6(com.cryclops.ringpack.RingActivity) -> e
+    void access$7$26f2f573(com.cryclops.ringpack.RingActivity) -> f
+    void access$8(com.cryclops.ringpack.RingActivity) -> g
+    void access$10(com.cryclops.ringpack.RingActivity) -> h
+    android.os.Handler access$11(com.cryclops.ringpack.RingActivity) -> i
+    com.cryclops.ringpack.DbManager access$12(com.cryclops.ringpack.RingActivity) -> j
+    int access$13(com.cryclops.ringpack.RingActivity) -> k
+    void access$14(com.cryclops.ringpack.RingActivity,int) -> a
+    boolean access$15(com.cryclops.ringpack.RingActivity) -> l
+    void access$16(com.cryclops.ringpack.RingActivity,com.cryclops.ringpack.actionitems.QuickAction) -> a
+    com.cryclops.ringpack.actionitems.QuickAction access$17(com.cryclops.ringpack.RingActivity) -> m
+    void access$19(com.cryclops.ringpack.RingActivity,int) -> b
+    android.os.Handler access$20(com.cryclops.ringpack.RingActivity) -> n
+    android.os.Handler access$21(com.cryclops.ringpack.RingActivity) -> o
+    int access$22(com.cryclops.ringpack.RingActivity) -> p
+    void access$23(com.cryclops.ringpack.RingActivity,int) -> c
+    void access$24(com.cryclops.ringpack.RingActivity) -> q
+    boolean access$25(com.cryclops.ringpack.RingActivity,java.io.File) -> a
+    android.os.Handler access$26(com.cryclops.ringpack.RingActivity) -> r
+    android.app.Dialog access$27(com.cryclops.ringpack.RingActivity) -> s
+com.cryclops.ringpack.RingActivity$1 -> com.cryclops.ringpack.m:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.cryclops.ringpack.RingActivity$10 -> com.cryclops.ringpack.aa:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.cryclops.ringpack.RingActivity$11 -> com.cryclops.ringpack.ab:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.cryclops.ringpack.RingActivity$12 -> com.cryclops.ringpack.ac:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.cryclops.ringpack.RingActivity$13 -> com.cryclops.ringpack.ad:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.cryclops.ringpack.RingActivity$14 -> com.cryclops.ringpack.ae:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void run() -> run
+com.cryclops.ringpack.RingActivity$15 -> com.cryclops.ringpack.af:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
+com.cryclops.ringpack.RingActivity$16 -> com.cryclops.ringpack.ag:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.cryclops.ringpack.RingActivity$17 -> com.cryclops.ringpack.ah:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onClick(android.view.View) -> onClick
+com.cryclops.ringpack.RingActivity$2 -> com.cryclops.ringpack.n:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.cryclops.ringpack.RingActivity$3 -> com.cryclops.ringpack.o:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.cryclops.ringpack.RingActivity$3$1 -> com.cryclops.ringpack.z:
+    com.cryclops.ringpack.RingActivity$3 this$1 -> a
+    void onClick(android.view.View) -> onClick
+com.cryclops.ringpack.RingActivity$4 -> com.cryclops.ringpack.p:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.cryclops.ringpack.RingActivity$4$1 -> com.cryclops.ringpack.c:
+    com.cryclops.ringpack.RingActivity$4 this$1 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.cryclops.ringpack.RingActivity$4$2 -> com.cryclops.ringpack.a:
+    com.cryclops.ringpack.RingActivity$4 this$1 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.cryclops.ringpack.RingActivity$5 -> com.cryclops.ringpack.i:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void run() -> run
+com.cryclops.ringpack.RingActivity$6 -> com.cryclops.ringpack.j:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onCheckedChanged(android.widget.RadioGroup,int) -> onCheckedChanged
+com.cryclops.ringpack.RingActivity$7 -> com.cryclops.ringpack.k:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void run() -> run
+com.cryclops.ringpack.RingActivity$7$1 -> com.cryclops.ringpack.y:
+    com.cryclops.ringpack.RingActivity$7 this$1 -> a
+    boolean onLongClick(android.view.View) -> onLongClick
+com.cryclops.ringpack.RingActivity$7$1$1 -> com.cryclops.ringpack.t:
+    com.cryclops.ringpack.RingActivity$7$1 this$2 -> a
+    void onClick(android.view.View) -> onClick
+com.cryclops.ringpack.RingActivity$7$1$2 -> com.cryclops.ringpack.s:
+    com.cryclops.ringpack.RingActivity$7$1 this$2 -> a
+    void onClick(android.view.View) -> onClick
+com.cryclops.ringpack.RingActivity$8 -> com.cryclops.ringpack.l:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.cryclops.ringpack.RingActivity$9 -> com.cryclops.ringpack.g:
+    com.cryclops.ringpack.RingActivity this$0 -> a
+    void onClick(android.content.DialogInterface,int) -> onClick
+com.cryclops.ringpack.RingEditor -> com.cryclops.ringpack.RingEditor:
+    com.cryclops.ringpack.DbManager db -> a
+    android.widget.LinearLayout container -> b
+    android.media.MediaPlayer mp -> c
+    android.app.ProgressDialog pd -> d
+    java.lang.String packName -> e
+    java.lang.String packPath -> f
+    int packId -> g
+    android.os.Handler initHandler -> h
+    void onCreate(android.os.Bundle) -> onCreate
+    void onStop() -> onStop
+    java.lang.String access$0(com.cryclops.ringpack.RingEditor) -> a
+    android.widget.LinearLayout access$1(com.cryclops.ringpack.RingEditor) -> b
+    android.app.ProgressDialog access$2(com.cryclops.ringpack.RingEditor) -> c
+    com.cryclops.ringpack.DbManager access$3(com.cryclops.ringpack.RingEditor) -> d
+    int access$4(com.cryclops.ringpack.RingEditor) -> e
+    void access$5(com.cryclops.ringpack.RingEditor,java.lang.String) -> a
+    void access$6(com.cryclops.ringpack.RingEditor,java.lang.String) -> b
+    android.os.Handler access$7(com.cryclops.ringpack.RingEditor) -> f
+    void access$8(com.cryclops.ringpack.RingEditor,int) -> a
+com.cryclops.ringpack.RingEditor$1 -> com.cryclops.ringpack.q:
+    com.cryclops.ringpack.RingEditor this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.cryclops.ringpack.RingEditor$2 -> com.cryclops.ringpack.r:
+    com.cryclops.ringpack.RingEditor this$0 -> a
+    void run() -> run
+com.cryclops.ringpack.RingEditor$2$1 -> com.cryclops.ringpack.e:
+    com.cryclops.ringpack.RingEditor$2 this$1 -> a
+    void onCheckedChanged(android.widget.CompoundButton,boolean) -> onCheckedChanged
+com.cryclops.ringpack.RingEditor$2$2 -> com.cryclops.ringpack.f:
+    com.cryclops.ringpack.RingEditor$2 this$1 -> a
+    void onClick(android.view.View) -> onClick
+com.cryclops.ringpack.RingReceiver -> com.cryclops.ringpack.RingReceiver:
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.cryclops.ringpack.RingService -> com.cryclops.ringpack.RingService:
+    boolean lockPref -> a
+    boolean shufflePref -> b
+    boolean widgetEnabled -> c
+    com.cryclops.ringpack.DbManager db -> d
+    android.os.Vibrator vib -> e
+    android.os.Handler packSetHandler -> f
+    java.lang.String packPath -> g
+    java.lang.String toneName -> h
+    boolean playAfterSet -> i
+    java.util.ArrayList tones -> j
+    android.media.Ringtone r -> k
+    android.os.Handler delayHandler -> l
+    android.os.IBinder onBind(android.content.Intent) -> onBind
+    void onCreate() -> onCreate
+    void onDestroy() -> onDestroy
+    void onStart(android.content.Intent,int) -> onStart
+    int onStartCommand(android.content.Intent,int,int) -> onStartCommand
+    void handleStart(android.content.Intent) -> a
+    void setPack(int) -> a
+    void grabPath(int) -> b
+    void mapTones(int) -> c
+    void setNotificationTone(int) -> d
+    void playCurrentTone() -> a
+    void access$0(com.cryclops.ringpack.RingService) -> a
+    void access$1$53d3e697(com.cryclops.ringpack.RingService) -> b
+    void access$2(com.cryclops.ringpack.RingService,int) -> a
+    void access$3(com.cryclops.ringpack.RingService,int) -> b
+    android.os.Handler access$4(com.cryclops.ringpack.RingService) -> c
+    boolean access$5(com.cryclops.ringpack.RingService) -> d
+    java.lang.String access$6(com.cryclops.ringpack.RingService) -> e
+    void access$7(com.cryclops.ringpack.RingService,android.media.Ringtone) -> a
+    boolean access$8(com.cryclops.ringpack.RingService) -> f
+    android.os.Handler access$9(com.cryclops.ringpack.RingService) -> g
+com.cryclops.ringpack.RingService$1 -> com.cryclops.ringpack.w:
+    com.cryclops.ringpack.RingService this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.cryclops.ringpack.RingService$2 -> com.cryclops.ringpack.x:
+    com.cryclops.ringpack.RingService this$0 -> a
+    void handleMessage(android.os.Message) -> handleMessage
+com.cryclops.ringpack.RingService$3 -> com.cryclops.ringpack.v:
+    com.cryclops.ringpack.RingService this$0 -> a
+    android.content.Intent val$i -> b
+    void run() -> run
+com.cryclops.ringpack.RingService$4 -> com.cryclops.ringpack.u:
+    com.cryclops.ringpack.RingService this$0 -> a
+    void run() -> run
+com.cryclops.ringpack.RingWidget -> com.cryclops.ringpack.RingWidget:
+    void onDisabled(android.content.Context) -> onDisabled
+    void onUpdate(android.content.Context,android.appwidget.AppWidgetManager,int[]) -> onUpdate
+    void update(android.content.Context,java.lang.String) -> a
+    void disableUpdate(android.content.Context,java.lang.String) -> b
+com.cryclops.ringpack.SmsReceiver -> com.cryclops.ringpack.SmsReceiver:
+    void onReceive(android.content.Context,android.content.Intent) -> onReceive
+com.cryclops.ringpack.Utilities -> com.cryclops.ringpack.h:
+    android.net.Uri savedUri -> a
+    boolean enabled -> b
+    int savedPackId -> c
+    int savedToneIndex -> d
+    java.lang.String life -> e
+    int getSavedToneIndex(android.content.Context) -> a
+    void setSavedToneIndex(android.content.Context,int) -> a
+    int getSavedPackId(android.content.Context) -> b
+    void setSavedPackId(android.content.Context,int) -> b
+    android.net.Uri getSavedUri(android.content.Context) -> c
+    void setSavedUri(android.content.Context,android.net.Uri) -> a
+    void removeUriFromMediaStore(android.content.Context) -> d
+    boolean getEnabled(android.content.Context) -> e
+    void setEnabled(android.content.Context,boolean) -> a
+    android.content.SharedPreferences getPrefs(android.content.Context) -> f
+    void testLife(android.content.Context) -> g
+com.cryclops.ringpack.actionitems.ActionItem -> com.cryclops.ringpack.a.a:
+    android.graphics.drawable.Drawable icon -> a
+    java.lang.String title -> b
+    android.view.View$OnClickListener listener -> c
+    void setTitle(java.lang.String) -> a
+    java.lang.String getTitle() -> a
+    void setIcon(android.graphics.drawable.Drawable) -> a
+    android.graphics.drawable.Drawable getIcon() -> b
+    void setOnClickListener(android.view.View$OnClickListener) -> a
+    android.view.View$OnClickListener getListener() -> c
+com.cryclops.ringpack.actionitems.CustomPopupWindow -> com.cryclops.ringpack.a.d:
+    android.view.View anchor -> a
+    android.widget.PopupWindow window -> b
+    android.view.View root -> d
+    android.graphics.drawable.Drawable background -> e
+    android.view.WindowManager windowManager -> c
+    void preShow() -> b
+    void setContentView(android.view.View) -> a
+    void dismiss() -> c
+com.cryclops.ringpack.actionitems.CustomPopupWindow$1 -> com.cryclops.ringpack.a.c:
+    com.cryclops.ringpack.actionitems.CustomPopupWindow this$0 -> a
+    boolean onTouch(android.view.View,android.view.MotionEvent) -> onTouch
+com.cryclops.ringpack.actionitems.QuickAction -> com.cryclops.ringpack.a.b:
+    android.view.View root -> d
+    android.widget.ImageView mArrowUp -> e
+    android.widget.ImageView mArrowDown -> f
+    android.view.LayoutInflater inflater -> g
+    android.content.Context context -> h
+    int animStyle -> i
+    android.view.ViewGroup mTrack -> j
+    android.widget.HorizontalScrollView scroller -> k
+    android.widget.LinearLayout tracks -> l
+    java.util.ArrayList actionList -> m
+    void addActionItem(com.cryclops.ringpack.actionitems.ActionItem) -> a
+    void show() -> a
+    void createActionList() -> d
