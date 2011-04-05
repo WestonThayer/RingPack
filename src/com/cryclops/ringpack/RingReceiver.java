@@ -1,3 +1,23 @@
+/*
+ * RingPack is a 'Notification ringtone' rotator for Android.
+ *
+ * Copyright (C) 2010 Weston Thayer
+ *
+ * This file is part of RingPack.
+ *
+ * RingPack is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * RingPack is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * RingPack.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.cryclops.ringpack;
 
 import android.content.BroadcastReceiver;
@@ -5,9 +25,11 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * The RingReceiver class takes care of maintaining RingPack over a restart.
+ * The RingReceiver class takes care of maintaining RingPack over a restart by
+ * making sure we don't litter URI's in MediaStore (although it may not be that
+ * large of a deal since MediaStore seems to clean itself).
  * 
- * @author Cryclops
+ * @author Weston Thayer
  * @version 2.0.0
  * @version 2.0.1
  * 					Fixed recovery on boot
@@ -21,36 +43,11 @@ import android.content.Intent;
  */
 public class RingReceiver extends BroadcastReceiver {
 	
-	//private static final String RESTORE_ON_BOOT = "RESTORE_ON_BOOT";
-	
-	//private int packId;
-	//private Context ctx;
-
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		String action = intent.getAction();
 		
-		if (action.equals(Intent.ACTION_BOOT_COMPLETED)) {
-			/*SharedPreferences prefs = Utilities.getPrefs(context);
-			boolean restore = prefs.getBoolean(RESTORE_ON_BOOT, false);
-			if (restore) {
-				packId = prefs.getInt(RingService.SAVED_PACKID, 0);
-				ctx = context;
-				
-				//Timer will poll every 8 seconds to see if the SD card is ready
-				if (packId != 0) {
-					Timer timer = new Timer();
-					timer.schedule(new StarterTask(), 0, 8000);
-				}
-			}*/
-		}
-		else if (action.equals(Intent.ACTION_SHUTDOWN)) {
-			/*if (Utilities.getEnabled(context)) {
-				SharedPreferences.Editor editor = Utilities.getPrefs(context).edit();
-				editor.putBoolean(RESTORE_ON_BOOT, true);
-				editor.commit();
-			}*/
-			
+		if (action.equals(Intent.ACTION_SHUTDOWN)) {		
 			Intent i = new Intent();
 			i.setClass(context, RingService.class);
 			context.stopService(i);
@@ -58,42 +55,4 @@ public class RingReceiver extends BroadcastReceiver {
 			Utilities.removeUriFromMediaStore(context);
 		}
 	}
-	
-	/**
-	 * The StarterTask runs every 8 seconds until the SD card checks out, then
-	 * it starts up RingService and sets the pack.
-	 * 
-	 * @author Cryclops
-	 * @version 2.0.0
-	 *
-	 */
-	/*private class StarterTask extends TimerTask {
-
-		@Override
-		public void run() {
-			if (isSdOk()) {
-				Intent i = new Intent();
-				i.setClass(ctx, RingService.class);
-				i.putExtra(RingService.ACTION, RingService.PACK_SET);
-				i.putExtra(RingService.PASSED_PACK, packId);
-				ctx.startService(i);
-				
-				this.cancel();
-			}
-		}
-	}
-	
-	private boolean isSdOk() {
-    	String status = Environment.getExternalStorageState();
-    	if (status.equals(Environment.MEDIA_MOUNTED_READ_ONLY))
-    		return false;
-    	else if (status.equals(Environment.MEDIA_SHARED))
-    		return false;
-    	else if (status.equals(Environment.MEDIA_REMOVED))
-    		return false;
-    	else if (status.equals(Environment.MEDIA_UNMOUNTED))
-    		return false;
-    	
-    	return true;
-    }*/
 }

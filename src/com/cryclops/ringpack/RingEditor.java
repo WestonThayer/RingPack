@@ -1,3 +1,23 @@
+/*
+ * RingPack is a 'Notification ringtone' rotator for Android.
+ *
+ * Copyright (C) 2010 Weston Thayer
+ *
+ * This file is part of RingPack.
+ *
+ * RingPack is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * RingPack is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * RingPack.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.cryclops.ringpack;
 
 import java.io.IOException;
@@ -22,8 +42,10 @@ import android.widget.LinearLayout;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /**
+ * The RingEditor Activity is started by RingActivity when the user desires to
+ * edit which sounds are in a pack or would just like to sample them.
  * 
- * @author Weston
+ * @author Weston Thayer
  * @version 2.0.0
  * @version 2.0.2
  * 				Fixed the volume key control to set to media
@@ -120,8 +142,8 @@ public class RingEditor extends Activity {
 		        	
 		        	ll.addView(cb);
 		        	
-		        	ImageButton iv = (ImageButton) ImageButton.inflate(RingEditor.this,
-		        			R.layout.ringeditor_item, null);
+		        	ImageButton iv = (ImageButton) ImageButton.inflate(
+		        			RingEditor.this, R.layout.ringeditor_item, null);
 		        	iv.setId(id);
 		        	iv.setOnClickListener(new OnClickListener() {
 

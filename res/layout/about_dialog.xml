@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    RingPack is a 'Notification ringtone' rotator for Android.
+
+    Copyright (C) 2010 Weston Thayer
+
+    This file is part of RingPack.
+
+    RingPack is free software: you can redistribute it and/or modify it under the
+    terms of the GNU General Public License as published by the Free Software
+    Foundation, either version 3 of the License, or (at your option) any later
+    version.
+
+    RingPack is distributed in the hope that it will be useful, but WITHOUT ANY
+    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with
+    RingPack.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
@@ -21,10 +42,20 @@
 				android:textColor="#fafafa"
 				android:textSize="20dp"
 				android:text="@string/about1" />
-			<TextView android:id="@+id/about2"
+			<TextView android:id="@+id/about1_5"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:layout_below="@id/about1"
+				android:padding="5dp"
+				android:gravity="left"
+				android:textColor="#a0a0a0"
+				android:textSize="12dp"
+				android:autoLink="all"
+				android:text="@string/about1_5" />
+			<TextView android:id="@+id/about2"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/about1_5"
 				android:padding="5dp"
 				android:gravity="left"
 				android:textColor="#a0a0a0"

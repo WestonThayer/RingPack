@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!-- Verison 2.0.0 -->
-<!-- Version 2.0.1
-	Added nullTonesError to RingService
-	Change log -->
-<!-- Version 2.1.0 -->
-	<!-- Removed mode strings -->
+<!--
+    RingPack is a 'Notification ringtone' rotator for Android.
+
+    Copyright (C) 2010 Weston Thayer
+
+    This file is part of RingPack.
+
+    RingPack is free software: you can redistribute it and/or modify it under the
+    terms of the GNU General Public License as published by the Free Software
+    Foundation, either version 3 of the License, or (at your option) any later
+    version.
+
+    RingPack is distributed in the hope that it will be useful, but WITHOUT ANY
+    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+    A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along with
+    RingPack.  If not, see <http://www.gnu.org/licenses/>.
+-->
 
 <resources>
     <string name="ringActivityName">RingPack</string>
@@ -38,6 +51,11 @@
     <string name="nonePack">None</string>
     <string name="installed">Installed Packs</string>
     <string name="getMore">Get More!</string>
+    <string name="scanFileError">Scanning Error</string>
+    <string name="scanFileErrorContents">
+    	Scanning has failed! A pack\'s info.txt file does not match the syntax
+    	expected.
+    </string>
     <string name="scanInfoError">Scanning Error</string>
     <string name="scanInfoErrorContents">
     	Scanning has failed! Please correct the error by conforming to the 
@@ -74,6 +92,12 @@
     
     <!-- About Dialog -->
     <string name="about1">Welcome to RingPack!</string>
+    <string name="about1_5">
+    	RingPack is Open Source! If you\'d like to contribute, please go to
+    	http://github.com/Cryclops/RingPack . It is released under GPL 3 and
+    	comes with ABSOLUTELY NO WARRENTY. For more info please see
+    	http://www.gnu.org/licenses/gpl.txt
+    </string>
     <string name="about2">
     	If you\'ve ever gotten annoyed with hearing the same repetitive sound
     	every time you get a text, this app is for you.\n\n
@@ -118,7 +142,8 @@
     	Version 2.0.1 - Minor bug fixes\n
     	Version 2.1.0 - Fixed FC\'s caused by memory limited phones, code clean
     	up, fixed volume key action in editing screen, doesn\'t keep resetting
-    	to "none" pack when editing current pack.
+    	to "none" pack when editing current pack.\n
+    	Version 2.1.1 - Released as Open Source under GPL 3. Please contribute!
     </string>
     <string name="about8">Website</string>
     <string name="about9">Show this dialog on start-up</string>

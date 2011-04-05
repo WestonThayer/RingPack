@@ -1,3 +1,23 @@
+/*
+ * RingPack is a 'Notification ringtone' rotator for Android.
+ *
+ * Copyright (C) 2010 Weston Thayer
+ *
+ * This file is part of RingPack.
+ *
+ * RingPack is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * RingPack is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * RingPack.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.cryclops.ringpack;
 
 import java.io.File;
@@ -26,7 +46,15 @@ import android.widget.Toast;
  * 
  * It cleans up after itself when destroyed.
  * 
- * @author Cryclops
+ * It is certainly possible to rewrite RingPack and eliminate RingService all-
+ * together. In this alternative, RingReceiver, RingAccessService, and
+ * SmsReciever could all call code in the Utilities class that would be
+ * copied from here. I don't believe that a Service is exactly necessary, since
+ * the Receivers are passed a Context. However, it seems to fit nicely into the
+ * design paradigms Google has laid out for us. Could be removed if it proves
+ * to be buggy.
+ * 
+ * @author Weston Thayer
  * @version	2.0.0
  * @version 2.1.0
  * 				Using the Utilities class to store pack, currIndex, enabled, and

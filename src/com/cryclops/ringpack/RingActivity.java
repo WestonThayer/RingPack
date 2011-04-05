@@ -1,3 +1,23 @@
+/*
+ * RingPack is a 'Notification ringtone' rotator for Android.
+ *
+ * Copyright (C) 2010 Weston Thayer
+ *
+ * This file is part of RingPack.
+ *
+ * RingPack is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * RingPack is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * RingPack.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package com.cryclops.ringpack;
 
 import java.io.BufferedReader;
@@ -51,22 +71,27 @@ import com.cryclops.ringpack.actionitems.QuickAction;
  * 	postSd (thread)
  * 	layout (thread)
  * 
- * @author Cryclops
+ * Please note that the 'QuickActions' used are adapted code from
+ * Lorensius W. L. T, http://www.londatiga.net, lorenz@londatiga.net.
+ * 
+ * @author Weston Thayer
  * @version 2.0.0
  * @version 2.0.1
  * 				Fixed the Get More! button to base on publisher
  * @version 2.0.2
  * 				Moved the about dialog code to show on an update
- * @versino 2.1.0
+ * @version 2.1.0
  * 				Utilities class, no more having to shut off all the time, no
  * more about dialog on scanning.
  *
  */
 public class RingActivity extends Activity {
 	
-	public static final String PACK_PATH = "/sdcard/Android/data/com.cryclops.ringpack/packs/";
+	public static final String PACK_PATH = "/sdcard/Android/data/com." +
+			"cryclops.ringpack/packs/";
 	public static final String FIRST_RUN = "FIRST_RUN_PREF";
-	public static final String NEW_PACK_INSTALL = "com.cryclops.ringpack.NEW_PACK_INSTALL";
+	public static final String NEW_PACK_INSTALL = "com.cryclops.ringpack." +
+			"NEW_PACK_INSTALL";
 	
 	private DbManager db;
 	
@@ -215,8 +240,8 @@ public class RingActivity extends Activity {
     	        int activeCol = c.getColumnIndex(DbManager.pKEY_ACTIVE);
     	        
     	        for (int i = 0; i < c.getCount(); i++) {
-    	        	RadioButton r = (RadioButton) RadioButton.inflate(RingActivity.this,
-    	        			R.layout.radio_pack, null);
+    	        	RadioButton r = (RadioButton) RadioButton.inflate(
+    	        			RingActivity.this, R.layout.radio_pack, null);
     	        	int id = c.getInt(idCol);
     	        	String name = c.getString(nameCol);
     	        	r.setId(id);
@@ -474,10 +499,12 @@ public class RingActivity extends Activity {
     	             save.flush();
     	             save.close();
     	        } catch (FileNotFoundException e) {
-    	        	Log.e(RingService.TAG, "File not found when copying over a pack");
+    	        	Log.e(RingService.TAG, "File not found when copying " +
+    	        			"over a pack");
 		        }
 		        catch (IOException e) {
-		        	Log.e(RingService.TAG, "Unknown IOException copying over a pack.");
+		        	Log.e(RingService.TAG, "Unknown IOException copying " +
+		        			"over a pack.");
 		        }
         	}
         }
@@ -527,10 +554,29 @@ public class RingActivity extends Activity {
 						StringTokenizer tok = new StringTokenizer(in.readLine(),
 								"\\|");
 						
-						String filename = tok.nextToken();
-						String songName = tok.nextToken();
+						String filename = null;
+						String songName = null;
+						if (tok.hasMoreTokens())
+							filename = tok.nextToken();
+						if (tok.hasMoreTokens())
+							songName = tok.nextToken();
 						
-						db.createTone(packId, songName, filename, true);
+						if (filename != null && songName != null)
+							db.createTone(packId, songName, filename, true);
+						else {
+							//info.txt is malformed
+							mBuilder.setTitle(getString(R.string.scanFileError));
+				    		mBuilder.setIcon(android.R.drawable.ic_dialog_alert);
+				    		mBuilder.setMessage(getString(R.string.scanFileErrorContents));
+				    		mBuilder.setCancelable(false);
+				    		mBuilder.setPositiveButton(getString(R.string.ok),
+				    				new DialogInterface.OnClickListener() {
+				    	           public void onClick(DialogInterface dialog, int id) {
+				    	                RingActivity.this.finish();
+				    	           }
+				    	    	});
+				    	    	mBuilder.show();
+						}
 					}
 					
 					in.close();
@@ -540,7 +586,8 @@ public class RingActivity extends Activity {
 		    		mBuilder.setIcon(android.R.drawable.ic_dialog_alert);
 		    		mBuilder.setMessage(getString(R.string.scanInfoErrorContents) + path);
 		    		mBuilder.setCancelable(false);
-		    		mBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+		    		mBuilder.setPositiveButton(getString(R.string.ok),
+		    				new DialogInterface.OnClickListener() {
 		    	           public void onClick(DialogInterface dialog, int id) {
 		    	                RingActivity.this.finish();
 		    	           }
@@ -553,7 +600,8 @@ public class RingActivity extends Activity {
 		    		mBuilder.setIcon(android.R.drawable.ic_dialog_alert);
 		    		mBuilder.setMessage(getString(R.string.scanSizeErrorContents) + path);
 		    		mBuilder.setCancelable(false);
-		    		mBuilder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+		    		mBuilder.setPositiveButton(getString(R.string.ok),
+		    				new DialogInterface.OnClickListener() {
 		    	           public void onClick(DialogInterface dialog, int id) {
 		    	                RingActivity.this.finish();
 		    	           }
@@ -576,12 +624,14 @@ public class RingActivity extends Activity {
 		mBuilder2.setIcon(android.R.drawable.ic_dialog_alert);
 		mBuilder2.setMessage(getString(R.string.deleteConfirmDialogContents));
 		mBuilder2.setCancelable(true);
-		mBuilder2.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+		mBuilder2.setPositiveButton(getString(R.string.ok),
+				new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {
 	        	   handlePackDelete2(pid);
 	           }
 	    	});
-		mBuilder2.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+		mBuilder2.setNegativeButton(getString(R.string.cancel),
+				new DialogInterface.OnClickListener() {
 	           public void onClick(DialogInterface dialog, int id) {
 	        	   //
 	           }

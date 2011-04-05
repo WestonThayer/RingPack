@@ -20,7 +20,7 @@ import android.widget.PopupWindow;
 
 /**
  * 
- * @author Weston
+ * @author Lorensius. W. L. T and Weston Thayer
  * @version 1.0
  *
  */
