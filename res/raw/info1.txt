@@ -1,6 +1,0 @@
-Mallet Pack
-4
-mallet_1.ogg|One
-mallet_2.ogg|Two
-mallet_3.ogg|Three
-mallet_4.ogg|Four

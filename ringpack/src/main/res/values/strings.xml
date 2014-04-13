@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Activities -->
+    <string name="app_name">RingPack</string>
+    <string name="activity_ring">Installed RingPacks</string>
+    <string name="activity_settings">Settings</string>
+    <string name="activity_edit">Edit</string>
+
+    <!-- RingAccessService -->
+    <string name="accessibility_service_label">RingPack Hack</string>
+    <string name="accessibility_service_description">
+        RingPack is an app that rotates your default notification ringtone every time a new
+        notification comes through. To help RingPack detect notifications, this accessibility
+        service is a hack. Enabling it will allow RingPack to work on all notifications, not just
+        new SMS messages. RingPack does not read your messages, it simply switches ringtones.
+    </string>
+
+    <!-- RingActivity Strings -->
+    <string name="activity_ring_get_more">Get More!</string>
+
+    <!-- EditActivity Strings -->
+    <string name="activity_edit_location">Location</string>
+
+    <!-- Options Menu -->
+    <string name="optionScan">Scan for new packs</string>
+    <string name="optionAbout">About</string>
+    <string name="optionSettings">Settings</string>
+    <string name="optionDisable">Disable</string>
+
+    <!-- Context menu for RingPacks -->
+    <string name="ring_pack_context_edit">Edit</string>
+    <string name="ring_pack_context_delete">Delete</string>
+
+    <!-- ProgressDialog values -->
+    <string name="progress_title_working">Working...</string>
+    <string name="progress_contents_finding">Finding installed RingPacks.</string>
+    <string name="progress_contents_activating">Setting default notification ringtone.</string>
+
+    <!-- Toasts -->
+    <string name="toast_pack_set">Pack Set</string>
+    <string name="toast_disabled">Disabled</string>
+
+    <!-- InfoDialog values -->
+    <string name="info_dialog_ok">OK</string>
+    <string name="info_dialog_title_error">Error</string>
+    <string name="info_dialog_title_warning">Warning</string>
+    <string name="info_dialog_content_infofile">
+        The %1$s RingPack\'s info.txt file lists %2$d ringtones, but the directory contains %3$d
+        ringtones. Some of this RingPack\'s tones may be missing or misnamed.
+    </string>
+    <string name="info_dialog_content_init">
+        Failed to find any RingPacks. Please contact the developer.
+    </string>
+    <string name="info_dialog_content_packset">
+        Failed to enable RingPack. Please contact the developer.
+    </string>
+    <string name="info_dialog_content_sd">
+        Sorry, but we can\'t seem to find your SD card. Please ensure it\'s connected and try again.
+    </string>
+    <string name="info_dialog_title_version">Welcome!</string>
+    <string name="info_dialog_content_version">
+        Thanks for upgrading RingPack. This update addresses compatibility issues with new versions
+        of Android and bugs. We tried our best to ensure a smooth transition, but if you experience
+        issues, please try uninstalling and reinstalling RingPack.
+    </string>
+
+    <!-- Confirmation Dialogs -->
+    <string name="confirmation_dialog_no">No</string>
+    <string name="confirmation_dialog_yes">Yes</string>
+    <string name="confirmation_dialog_title_warning">Warning</string>
+    <string name="confirmation_dialog_content_pack_delete">
+        Are you sure you want to permanently delete this pack?
+    </string>
+
+    <!-- Preferences -->
+    <string name="pref_title_playback_style">Playback style</string>
+    <string name="pref_summary_playback_style">
+        Choose how you\'d like the default notification ringtone to rotate.
+    </string>
+    <string name="pref_title_accessibility">Accessibility Hack</string>
+    <string name="pref_summary_accessibility">
+        If you\'d like the ringtone to rotate on all notifications
+        (EX: a new Facebook message), tap here.
+        Look for \'RingPack Hack\' in the list of Accessibility Services and turn it ON.
+    </string>
+
+</resources>

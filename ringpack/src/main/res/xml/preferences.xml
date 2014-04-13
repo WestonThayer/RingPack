@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="RotationMode"
+        android:title="@string/pref_title_playback_style"
+        android:dialogTitle="@string/pref_title_playback_style"
+        android:summary="@string/pref_summary_playback_style"
+        android:entries="@array/pref_playback_style_entries"
+        android:entryValues="@array/pref_playback_style_entry_values"
+        android:defaultValue="0"/>
+    <Preference
+        android:key="goToAccessibilitySettings"
+        android:title="@string/pref_title_accessibility"
+        android:summary="@string/pref_summary_accessibility"/>
+</PreferenceScreen>

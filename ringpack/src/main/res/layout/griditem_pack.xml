@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+    <ImageView android:id="@+id/griditem_pack_image"
+        android:layout_width="135dp"
+        android:layout_height="135dp"
+        android:src="@drawable/unknown_pack"/>
+    <TextView android:id="@+id/griditem_pack_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/griditem_pack_image"
+        android:layout_centerHorizontal="true"
+        android:text="Unknown Pack"/>
+</RelativeLayout>

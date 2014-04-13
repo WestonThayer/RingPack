@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <CheckBox android:id="@+id/listitem_tone_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"/>
+    <RelativeLayout android:id="@+id/listitem_tone_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/listitem_tone_checkbox">
+        <TextView android:id="@+id/listitem_tone_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Unknown ringtone"/>
+        <TextView android:id="@+id/listitem_tone_sub_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/listitem_tone_textview"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="Unknown"/>
+    </RelativeLayout>
+</RelativeLayout>

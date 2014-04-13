@@ -1,8 +1,0 @@
-com.cryclops.ringpack.RingActivity
-com.cryclops.ringpack.RingEditor
-com.cryclops.ringpack.Preferences
-com.cryclops.ringpack.RingService
-com.cryclops.ringpack.RingAccessService
-com.cryclops.ringpack.RingReceiver
-com.cryclops.ringpack.SmsReceiver
-com.cryclops.ringpack.RingWidget
