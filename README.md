@@ -1,15 +1,13 @@
-RingPack
-	A 'Notification ringtone' rotator for Android. Currently published in the
-	Android Market by Cryclops.
-	
-	It is being open source-ed because users with certain phones are
-	experiencing issues that are beyond my expertise to solve. I hope that the
-	community can come together to find the bugs, which I will post in the
-	issues section.
-	
-LICENSE
+# RingPack
 
-RingPack is a 'Notification ringtone' rotator for Android.
+A 'Default Notification Ringtone' rotator for Android. Currently published in the Android Market by Cryclops.
+* [Google Play](https://play.google.com/store/apps/details?id=com.cryclops.ringpack)
+* [Website](http://cryclops.com/apps/ringpack/)
+	
+## License
+
+```
+RingPack is a 'Default Notification Ringtone' rotator for Android.
 
 Copyright (C) 2010 Weston Thayer
  
@@ -27,3 +25,4 @@ RingPack.  If not, see <http://www.gnu.org/licenses/>.
 
 NOTE: all original images and audio are also Copyright by Weston Thayer 2010.
 Unauthorized use is not permitted.
+```
