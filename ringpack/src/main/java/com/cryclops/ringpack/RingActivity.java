@@ -58,6 +58,50 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
         // the app's label is wrong on the home screen).
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(R.string.activity_ring);
+
+        // Ensure context menu shows on long press
+        registerForContextMenu(gridView);
+
+        // Change selection on tap
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
+                // Update the ViewModel
+                PackVm selectedPackVm = vm.getPackVms().get(i);
+                vm.setSelectedPackVmAsync(selectedPackVm, getBaseContext());
+            }
+        });
+
+        getMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=RingPack"));
+                i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+                try {
+                    startActivity(i);
+                }
+                catch (ActivityNotFoundException e) {
+                    // Note it
+                }
+            }
+        });
+
+        // Possibly show new version dialog
+        try {
+            int version = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+
+            if (version > SharedPrefUtils.getPreviousVersion(getBaseContext())) {
+                SharedPrefUtils.setPreviousVersion(getBaseContext(), version);
+
+                showInfoDialog(
+                        getString(R.string.info_dialog_title_version),
+                        getString(R.string.info_dialog_content_version)
+                );
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new UnsupportedOperationException();
+        }
     }
 
     @Override
@@ -68,72 +112,33 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
 
         if (vm == null) {
             vm = new RingActivityVm();
+
             vm.setOnInitializedListener(new OnInitializedListener() {
                 @Override
                 public void onInitialized(Object sender) {
-                    final RingActivityVm ringVm = (RingActivityVm) sender;
-                    ((RingActivityVm) sender).removeOnInitializedListener(this);
+                    RingActivityVm ringVm = (RingActivityVm) sender;
 
                     // Hook up the data to the GridView of packs
                     packVmAdapter = new PackVmAdapter(getBaseContext(), ringVm);
                     gridView.setAdapter(packVmAdapter);
-
-                    // Ensure context menu shows on long press
-                    registerForContextMenu(gridView);
-
-                    // Change selection on tap
-                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(final AdapterView<?> adapterView, final View view, int i, long l) {
-                            // Update the ViewModel
-                            PackVm selectedPackVm = ringVm.getPackVms().get(i);
-                            ringVm.setOnSelectedPackVmAsyncCompletedListener(new OnCompletedListener() {
-                                @Override
-                                public void onCompleted(Object sender) {
-                                    ((RingActivityVm) sender).removeOnSelectedPackVmAsyncCompletedListener(this);
-
-                                    // Update the View
-                                    PackVmAdapter adapter = (PackVmAdapter)adapterView.getAdapter();
-                                    adapter.notifyDataSetChanged();
-                                }
-                            });
-                            ringVm.setSelectedPackVmAsync(selectedPackVm, getBaseContext());
-                        }
-                    });
-
-                    // Possibly show new version dialog
-                    try {
-                        int version = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-
-                        if (version > SharedPrefUtils.getPreviousVersion(getBaseContext())) {
-                            SharedPrefUtils.setPreviousVersion(getBaseContext(), version);
-
-                            showInfoDialog(
-                                    getString(R.string.info_dialog_title_version),
-                                    getString(R.string.info_dialog_content_version)
-                            );
-                        }
-                    } catch (PackageManager.NameNotFoundException e) {
-                        throw new UnsupportedOperationException();
-                    }
                 }
             });
-            vm.initializeAsync(this.getBaseContext());
 
-            getMoreButton.setOnClickListener(new View.OnClickListener() {
+            vm.setOnDeletePackVmAsyncCompletedListener(new OnCompletedListener() {
                 @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=RingPack"));
-                    i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-                    try {
-                        startActivity(i);
-                    }
-                    catch (ActivityNotFoundException e) {
-                        // Note it
-                    }
+                public void onCompleted(Object sender) {
+                    packVmAdapter.notifyDataSetChanged();
                 }
             });
+
+            vm.setOnSelectedPackVmAsyncCompletedListener(new OnCompletedListener() {
+                @Override
+                public void onCompleted(Object sender) {
+                    packVmAdapter.notifyDataSetChanged();
+                }
+            });
+
+            vm.initializeAsync(this.getBaseContext());
         }
     }
 
@@ -168,13 +173,6 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
 
                 return true;
             case R.id.ring_pack_context_delete:
-                vm.setOnDeletePackVmAsyncCompletedListener(new OnCompletedListener() {
-                    @Override
-                    public void onCompleted(Object sender) {
-                        ((RingActivityVm) sender).removeOnDeletePackVmAsyncCompletedListener(this);
-                        packVmAdapter.notifyDataSetChanged();
-                    }
-                });
                 vm.deletePackVmAsync(packVmForContextMenu, getBaseContext());
 
                 return true;
@@ -219,17 +217,6 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
 
                 return true;
             case R.id.action_refresh:
-                vm.setOnInitializedListener(new OnInitializedListener() {
-                    @Override
-                    public void onInitialized(Object sender) {
-                        ((RingActivityVm) sender).removeOnInitializedListener(this);
-
-                        // Because ArrayAdapter observes a collection for changes, and the pointer
-                        // to the collection has changed, we're forced to recreate the adapter
-                        packVmAdapter = new PackVmAdapter(getBaseContext(), vm);
-                        gridView.setAdapter(packVmAdapter);
-                    }
-                });
                 vm.initializeAsync(getBaseContext());
 
                 return true;
