@@ -3,6 +3,8 @@
 A 'Default Notification Ringtone' rotator for Android. Currently published in the Android Market by Cryclops.
 * [Google Play](https://play.google.com/store/apps/details?id=com.cryclops.ringpack)
 * [Website](http://cryclops.com/apps/ringpack/)
+
+![](http://westonthayer.com/images/ringpack/feature_graphic.png)
 	
 ## License
 
