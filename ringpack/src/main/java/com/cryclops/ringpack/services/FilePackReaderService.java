@@ -89,6 +89,12 @@ public class FilePackReaderService implements PackReaderService {
             if (c.getCount() == 1) {
                 c.moveToFirst();
                 String path = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
+
+                if (!path.contains("com.cryclops.ringpack")) {
+                    // This isn't a RingPack tone, probably the user's tone
+                    return null;
+                }
+
                 final File tonePath = new File(path);
 
                 if (packs != null) {
