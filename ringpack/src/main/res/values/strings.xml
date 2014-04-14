@@ -45,10 +45,6 @@
     <string name="info_dialog_ok">OK</string>
     <string name="info_dialog_title_error">Error</string>
     <string name="info_dialog_title_warning">Warning</string>
-    <string name="info_dialog_content_infofile">
-        The %1$s RingPack\'s info.txt file lists %2$d ringtones, but the directory contains %3$d
-        ringtones. Some of this RingPack\'s tones may be missing or misnamed.
-    </string>
     <string name="info_dialog_content_init">
         Failed to find any RingPacks. Please contact the developer.
     </string>

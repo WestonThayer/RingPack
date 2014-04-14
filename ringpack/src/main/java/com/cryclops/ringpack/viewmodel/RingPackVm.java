@@ -2,12 +2,8 @@ package com.cryclops.ringpack.viewmodel;
 
 import android.content.Context;
 
-import com.cryclops.ringpack.R;
 import com.cryclops.ringpack.model.RingPack;
 import com.cryclops.ringpack.model.Tone;
-import com.cryclops.ringpack.services.AppServiceLocator;
-import com.cryclops.ringpack.services.NotificationService;
-import com.cryclops.ringpack.services.ResourceService;
 import com.cryclops.ringpack.utils.ArrayUtils;
 import com.cryclops.ringpack.utils.FileUtils;
 import com.cryclops.ringpack.utils.ListUtils;
@@ -100,17 +96,7 @@ public class RingPackVm implements PackVm {
             in.close(); // All done reading the file
 
             if (toneFiles.size() != tempToneList.size()) {
-                // Let the user know that they don't match
-                NotificationService notificationService = (NotificationService) AppServiceLocator.getInstance().getService(NotificationService.class);
-                ResourceService resourceService = (ResourceService) AppServiceLocator.getInstance().getService(ResourceService.class);
-
-                notificationService.showInfoDialog(
-                        resourceService.getString(R.string.info_dialog_title_warning),
-                        resourceService.getString(
-                                R.string.info_dialog_content_infofile,
-                                name,
-                                tempToneList.size(),
-                                toneFiles.size()));
+                // Log it
             }
 
             // Start making the full list, starting with the TempTones to maintain the order the
