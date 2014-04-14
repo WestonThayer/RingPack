@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="C:\Users\Weston\AndroidStudioProjects\RingPack" />
-            <option value="C:\Users\Weston\AndroidStudioProjects\RingPack\ringpack" />
+            <option value="C:\Users\Weston\Documents\GitHub\RingPack" />
+            <option value="C:\Users\Weston\Documents\GitHub\RingPack\ringpack" />
           </set>
         </option>
       </GradleProjectSettings>
