@@ -61,8 +61,8 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         AppServiceLocator.getInstance().addService(NotificationService.class, this);
         AppServiceLocator.getInstance().addService(ResourceService.class, this);
 
@@ -138,10 +138,10 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() {
         AppServiceLocator.getInstance().removeService(NotificationService.class);
         AppServiceLocator.getInstance().removeService(ResourceService.class);
-        super.onStop();
+        super.onPause();
     }
 
     /**
