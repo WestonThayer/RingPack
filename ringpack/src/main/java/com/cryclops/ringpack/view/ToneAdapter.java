@@ -35,15 +35,12 @@ public class ToneAdapter extends ArrayAdapter<Tone> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View itemView;
         Tone tone = tones.get(position);
-        boolean isNewView;
 
         if (convertView == null) {
             itemView = inflater.inflate(R.layout.listitem_tone, parent, false);
-            isNewView = true;
         }
         else {
             itemView = convertView;
-            isNewView = false;
         }
 
         // CheckBox should be checked if tone is enabled
@@ -60,34 +57,32 @@ public class ToneAdapter extends ArrayAdapter<Tone> {
         // TextView should be grayed out if tone is disabled
         setEnabled(tone.isEnabled(), nameTv, filenameTv);
 
-        if (isNewView) {
-            //Set click listener for the checkbox, which enables/disables the Tone
-            enabledCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    Tone tone = (Tone) compoundButton.getTag();
-                    tone.setIsEnabled(b);
+        //Set click listener for the checkbox, which enables/disables the Tone
+        enabledCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Tone tone = (Tone) compoundButton.getTag();
+                tone.setIsEnabled(b);
 
-                    // Update the View
-                    View parent = (View) compoundButton.getParent();
-                    TextView nameTv = (TextView) parent.findViewById(R.id.listitem_tone_textview);
-                    TextView filenameTv = (TextView) parent.findViewById(R.id.listitem_tone_sub_textview);
-                    filenameTv.setText(tone.getPathFile().getName());
-                    setEnabled(b, nameTv, filenameTv);
-                }
-            });
+                // Update the View
+                View parent = (View) compoundButton.getParent();
+                TextView nameTv = (TextView) parent.findViewById(R.id.listitem_tone_textview);
+                TextView filenameTv = (TextView) parent.findViewById(R.id.listitem_tone_sub_textview);
+                filenameTv.setText(tone.getPathFile().getName());
+                setEnabled(b, nameTv, filenameTv);
+            }
+        });
 
-            // Set click listener on text, which plays the Tone
-            RelativeLayout wrapper = (RelativeLayout) itemView.findViewById(R.id.listitem_tone_wrapper);
-            wrapper.setTag(tone);
-            wrapper.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Tone tone = (Tone) view.getTag();
-                    tone.play(ctx);
-                }
-            });
-        }
+        // Set click listener on text, which plays the Tone
+        RelativeLayout wrapper = (RelativeLayout) itemView.findViewById(R.id.listitem_tone_wrapper);
+        wrapper.setTag(tone);
+        wrapper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Tone tone = (Tone) view.getTag();
+                tone.play(ctx);
+            }
+        });
 
         return  itemView;
     }
