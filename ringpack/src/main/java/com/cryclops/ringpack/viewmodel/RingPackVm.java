@@ -12,6 +12,7 @@ import com.cryclops.ringpack.utils.ArrayUtils;
 import com.cryclops.ringpack.utils.FileUtils;
 import com.cryclops.ringpack.utils.ListUtils;
 import com.cryclops.ringpack.utils.PropertySelector;
+import com.cryclops.ringpack.utils.RingtoneManagerUtils;
 import com.cryclops.ringpack.utils.SharedPrefUtils;
 
 import java.io.BufferedReader;
@@ -223,7 +224,8 @@ public class RingPackVm implements PackVm {
         if (ringPack.getCurrentTone() == null) {
             // Set to the first enabled tone and play it
             ringPack.setCurrentTone(findNextEnabledTone(0));
-            ringPack.getCurrentTone().setDefaultNotificationRingtone(ctx, true);
+            ringPack.getCurrentTone().setDefaultNotificationRingtone(ctx);
+            RingtoneManagerUtils.getDefaultNotificationRingtone(ctx).play();
         }
         else {
             int curIndex = ringPack.getTones().indexOf(ringPack.getCurrentTone());
@@ -255,7 +257,7 @@ public class RingPackVm implements PackVm {
                     throw new UnsupportedOperationException();
             }
 
-            ringPack.getCurrentTone().setDefaultNotificationRingtone(ctx, false);
+            ringPack.getCurrentTone().setDefaultNotificationRingtone(ctx);
         }
     }
 

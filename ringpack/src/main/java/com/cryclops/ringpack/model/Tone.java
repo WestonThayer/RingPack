@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -83,7 +81,7 @@ public class Tone implements Serializable {
      * @param ctx
      * @return The URI of the tone in MediaStore
      */
-    public Uri setDefaultNotificationRingtone(Context ctx, boolean playAfterSet) {
+    public Uri setDefaultNotificationRingtone(Context ctx) {
         // SDK 11+ has the Files store, which already indexed... everything. Worse yet, if we
         // attempt to insert a duplicate record, it'll fail.
         // We're forced to always query for the URI of this tone
@@ -144,7 +142,7 @@ public class Tone implements Serializable {
 
             c.close();
 
-            setDefaultNotificationRingtone(ctx, toneUri, playAfterSet);
+            RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, toneUri);
 
             return toneUri;
         }
@@ -207,7 +205,7 @@ public class Tone implements Serializable {
 
                 // call ourselves to do a proper set
                 c.close(); // don't leak
-                return setDefaultNotificationRingtone(ctx, playAfterSet);
+                return setDefaultNotificationRingtone(ctx);
             }
 
             c.close();
@@ -221,19 +219,10 @@ public class Tone implements Serializable {
                 // does with the new data
                 ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, toneUri));
 
-                setDefaultNotificationRingtone(ctx, toneUri, playAfterSet);
+                RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, toneUri);
             }
 
             return toneUri;
-        }
-    }
-
-    private void setDefaultNotificationRingtone(Context ctx, Uri toneUri, boolean play) {
-        RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, toneUri);
-
-        if (play) {
-            Ringtone r = RingtoneManager.getRingtone(ctx, toneUri);
-            r.play();
         }
     }
 
