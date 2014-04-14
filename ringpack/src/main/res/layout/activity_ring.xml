@@ -17,7 +17,7 @@
         android:layout_weight="1"
         android:layout_gravity="fill_vertical"
         android:gravity="center_horizontal"
-        android:columnWidth="135dp"
+        android:columnWidth="125dp"
         android:numColumns="auto_fit"
         android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
