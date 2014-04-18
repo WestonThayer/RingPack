@@ -13,16 +13,25 @@ import com.cryclops.ringpack.R;
  */
 public class ConfirmationDialogFragment extends DialogFragment {
 
-    private String title, content;
+    private static final String TITLE = "title";
+    private static final String CONTENT = "content";
+
     DialogInterface.OnClickListener onPositiveClickListener, onNegativeClickListener;
 
-    public ConfirmationDialogFragment(
-            String title,
-            String content,
+    public static ConfirmationDialogFragment newInstance(String title, String content) {
+        ConfirmationDialogFragment f = new ConfirmationDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putString(TITLE, title);
+        args.putString(CONTENT, content);
+        f.setArguments(args);
+
+        return f;
+    }
+
+    public void setClickListeners(
             DialogInterface.OnClickListener onPositiveClickListener,
             DialogInterface.OnClickListener onNegativeClickListener) {
-        this.title = title;
-        this.content = content;
         this.onPositiveClickListener = onPositiveClickListener;
         this.onNegativeClickListener = onNegativeClickListener;
     }
@@ -31,8 +40,8 @@ public class ConfirmationDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle(title);
-        builder.setMessage(content);
+        builder.setTitle(getArguments().getString(TITLE));
+        builder.setMessage(getArguments().getString(CONTENT));
 
         builder.setPositiveButton(R.string.confirmation_dialog_yes, onPositiveClickListener);
         builder.setNegativeButton(R.string.confirmation_dialog_no, onNegativeClickListener);

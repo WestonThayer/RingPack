@@ -5,6 +5,7 @@ import android.media.Ringtone;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.provider.MediaStore;
 
 import com.cryclops.ringpack.R;
 import com.cryclops.ringpack.model.Tone;
@@ -384,15 +385,18 @@ public class RingActivityVm extends InitializableActivityVm {
      * @param ctx
      */
     private void disableRingPack(Context ctx) {
-        // Delete our MediaStore entry (assuming we have one)
-        Uri currentToneUri = RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx);
-        Ringtone currentTone = RingtoneManagerUtils.getDefaultNotificationRingtone(ctx);
+        // Delete all RingPack MediaStore entries
+        String selection = MediaStore.MediaColumns.TITLE + " = ?";
+        String[] args = {Tone.DEFAULT_TONE_NAME};
+        int rowsDeleted = ctx.getContentResolver().delete(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                selection,
+                args
+        );
 
-        if (currentTone.getTitle(ctx).equals(Tone.DEFAULT_TONE_NAME)) {
-            if (ctx.getContentResolver().delete(currentToneUri, null, null) != 1) {
-                // Yuck, this means we're littering in the ContentProvider
-                ServiceUtils.getLog().failContentProviderDeleteRow(currentToneUri);
-            }
+        if (rowsDeleted < 1) {
+            // Yuck, this means we're littering in the ContentProvider
+            ServiceUtils.getLog().failContentProviderDeleteRow(RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx));
         }
 
         // Restore the old Ringtone

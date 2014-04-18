@@ -106,6 +106,11 @@ public class FilePackReaderService implements PackReaderService {
                             return item.setCurrentToneIfMatch(tonePath);
                         }
                     });
+
+                    if (currentPackVm == null) {
+                        // In the upgrade case, it might not be present in our list of packs
+                        return null;
+                    }
                 }
                 else {
                     File rootPath = tonePath.getParentFile();

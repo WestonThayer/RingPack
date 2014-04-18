@@ -272,7 +272,7 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
 
     @Override
     public void showInfoDialog(String title, String content) {
-        InfoDialogFragment dialog = new InfoDialogFragment(title, content);
+        InfoDialogFragment dialog = InfoDialogFragment.newInstance(title, content);
         dialog.show(getSupportFragmentManager(), "infoDialog");
     }
 
@@ -282,9 +282,9 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
             String content,
             final OnCompletedListener onPositiveCompletedListener,
             final OnCompletedListener onNegativeCompletedListener) {
-        ConfirmationDialogFragment dialog = new ConfirmationDialogFragment(
-                title,
-                content,
+        ConfirmationDialogFragment dialog = ConfirmationDialogFragment.newInstance(title, content);
+
+        dialog.setClickListeners(
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -296,7 +296,9 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
                     public void onClick(DialogInterface dialogInterface, int i) {
                         onNegativeCompletedListener.onCompleted(dialogInterface);
                     }
-                });
+                }
+        );
+
         dialog.show(getSupportFragmentManager(), "confirmationDialog");
     }
 }

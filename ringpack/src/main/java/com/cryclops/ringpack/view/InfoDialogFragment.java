@@ -13,16 +13,26 @@ import com.cryclops.ringpack.R;
  */
 public class InfoDialogFragment extends DialogFragment {
 
-    private String title, content;
+    private static final String TITLE = "title";
+    private static final String CONTENT = "content";
 
-    public InfoDialogFragment(String title, String content) {
-        this.title = title;
-        this.content = content;
+    public static InfoDialogFragment newInstance(String title, String content) {
+        InfoDialogFragment f = new InfoDialogFragment();
+
+        Bundle args = new Bundle();
+        args.putString(TITLE, title);
+        args.putString(CONTENT, content);
+        f.setArguments(args);
+
+        return f;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        String title = getArguments().getString(TITLE);
+        String content = getArguments().getString(CONTENT);
 
         builder.setTitle(title);
         builder.setMessage(content);
