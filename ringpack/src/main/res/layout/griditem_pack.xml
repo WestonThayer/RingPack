@@ -7,6 +7,7 @@
     <ImageView android:id="@+id/griditem_pack_image"
         android:layout_width="125dp"
         android:layout_height="135dp"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/unknown_pack"/>
     <TextView android:id="@+id/griditem_pack_name"
         android:layout_width="wrap_content"

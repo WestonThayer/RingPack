@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cryclops.ringpack.R;
@@ -45,8 +46,31 @@ public class PackVmAdapter extends ArrayAdapter<PackVm> {
             gridItemView.setBackgroundResource(R.color.transparent);
         }
 
-        TextView nameTv = (TextView)gridItemView.findViewById(R.id.griditem_pack_name);
+        TextView nameTv = (TextView) gridItemView.findViewById(R.id.griditem_pack_name);
         nameTv.setText(packVm.getName());
+
+        // Set the image to look pretty
+        ImageView imageView = (ImageView) gridItemView.findViewById(R.id.griditem_pack_image);
+        int packImageId;
+
+        if (packVm.getName().equals("Guitar in A Pack")) {
+            packImageId = R.drawable.guitar_pack;
+        }
+        else if (packVm.getName().equals("Legend of Zelda: OOT General")) {
+            packImageId = R.drawable.zelda_pack;
+        }
+        else if (packVm.getName().equals("Legend of Zelda: OOT Navi")) {
+            packImageId = R.drawable.navi_pack;
+        }
+        else if (packVm.getName().equals("Delayed Piano in C") ||
+                packVm.getName().equals("Piano Riff Pack")) {
+            packImageId = R.drawable.piano_pack;
+        }
+        else {
+            packImageId = R.drawable.unknown_pack;
+        }
+
+        imageView.setImageResource(packImageId);
 
         return  gridItemView;
     }
