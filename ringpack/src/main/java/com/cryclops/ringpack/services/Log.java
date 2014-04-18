@@ -29,6 +29,7 @@ public interface Log {
     // categories and actions for UI
     static final String CATEGORY_UI = "ui";
     static final String ACTION_UI_LONGPRESS = "longpress";
+    static final String ACTION_UI_TAP = "tap";
 
     void activityStart(Activity activity);
     void activityStop(Activity activity);
@@ -81,4 +82,10 @@ public interface Log {
      * @param descriptor What they used the gesture on
      */
     void longPress(String descriptor);
+
+    /**
+     * Log when the user tapped a pack that was already selected, maybe expecting it to
+     * deactivate itself.
+     */
+    void doubleSetRingPack();
 }

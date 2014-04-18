@@ -161,4 +161,16 @@ public class RingPackApplication extends Application implements Log {
             easyTracker.send(map);
         }
     }
+
+    @Override
+    public void doubleSetRingPack() {
+        Map<String, String> map = MapBuilder.createEvent(
+                CATEGORY_UI,
+                ACTION_UI_TAP,
+                "double_set_ringpack",
+                null
+        ).build();
+
+        easyTracker.send(map);
+    }
 }

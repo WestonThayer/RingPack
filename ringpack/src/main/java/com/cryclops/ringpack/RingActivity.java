@@ -69,6 +69,12 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
             public void onItemClick(AdapterView<?> adapterView, final View view, int i, long l) {
                 // Update the ViewModel
                 PackVm selectedPackVm = vm.getPackVms().get(i);
+
+                if (selectedPackVm.isSelected()) {
+                    // The user tapped on an already selected pack
+                    ServiceUtils.getLog().doubleSetRingPack();
+                }
+
                 vm.setSelectedPackVmAsync(selectedPackVm, getBaseContext());
             }
         });
