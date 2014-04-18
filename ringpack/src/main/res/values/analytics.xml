@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Replace placeholder ID with your tracking ID-->
+    <string name="ga_trackingId">UA-49121217-2</string>
+
+    <!--Enable automatic activity tracking-->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- Set the names for the Activites -->
+    <string name="com.cryclops.ringpack.RingActivity">Home</string>
+    <string name="com.cryclops.ringpack.EditActivity">Edit</string>
+    <string name="com.cryclops.ringpack.SettingsActivity">Settings</string>
+
+    <!--Enable automatic exception tracking-->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+</resources>

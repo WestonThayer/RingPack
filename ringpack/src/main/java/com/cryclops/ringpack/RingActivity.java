@@ -22,6 +22,7 @@ import com.cryclops.ringpack.services.AppServiceLocator;
 import com.cryclops.ringpack.services.NotificationService;
 import com.cryclops.ringpack.services.ResourceService;
 import com.cryclops.ringpack.utils.ListUtils;
+import com.cryclops.ringpack.utils.ServiceUtils;
 import com.cryclops.ringpack.utils.SharedPrefUtils;
 import com.cryclops.ringpack.view.ConfirmationDialogFragment;
 import com.cryclops.ringpack.view.InfoDialogFragment;
@@ -82,7 +83,8 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
                     startActivity(i);
                 }
                 catch (ActivityNotFoundException e) {
-                    // Note it
+                    // There's no market? Weird
+                    ServiceUtils.getLog().exception(e, false);
                 }
             }
         });
@@ -102,6 +104,12 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
         } catch (PackageManager.NameNotFoundException e) {
             throw new UnsupportedOperationException();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ServiceUtils.getLog().activityStart(this);
     }
 
     @Override
@@ -149,6 +157,12 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
         super.onPause();
     }
 
+    @Override
+    protected void onStop() {
+        ServiceUtils.getLog().activityStop(this);
+        super.onStop();
+    }
+
     /**
      * There's no container to hold which PackVm was long-pressed, so we'll store it here.
      */
@@ -161,6 +175,8 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
 
         AdapterView.AdapterContextMenuInfo a = (AdapterView.AdapterContextMenuInfo) menuInfo;
         packVmForContextMenu = vm.getPackVms().get(a.position);
+
+        ServiceUtils.getLog().longPress("pack_context_menu");
     }
 
     @Override

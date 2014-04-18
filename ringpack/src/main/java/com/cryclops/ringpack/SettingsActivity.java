@@ -6,6 +6,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.provider.Settings;
 
+import com.cryclops.ringpack.utils.ServiceUtils;
+
 /**
  *
  */
@@ -24,5 +26,17 @@ public class SettingsActivity extends PreferenceActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        ServiceUtils.getLog().activityStart(this);
+    }
+
+    @Override
+    protected void onStop() {
+        ServiceUtils.getLog().activityStop(this);
+        super.onStop();
     }
 }

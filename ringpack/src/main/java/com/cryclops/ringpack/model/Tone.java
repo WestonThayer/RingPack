@@ -10,6 +10,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 
 import com.cryclops.ringpack.utils.RingtoneManagerUtils;
+import com.cryclops.ringpack.utils.ServiceUtils;
 
 import java.io.File;
 import java.io.Serializable;
@@ -129,6 +130,8 @@ public class Tone implements Serializable {
                 values.put(MediaStore.Audio.Media.IS_ALARM, false);
                 values.put(MediaStore.Audio.Media.IS_MUSIC, false);
 
+                ServiceUtils.getLog().insertRingtoneFiles(); // strange case, log it
+
                 toneUri = ctx.getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
 
                 if (toneUri == null) {
@@ -193,6 +196,8 @@ public class Tone implements Serializable {
             }
             else {
                 // That's bad. Delete all of our entries.
+                ServiceUtils.getLog().deleteRingtoneCleanup();
+
                 int rowsDeleted = ctx.getContentResolver().delete(
                         MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                         selection,

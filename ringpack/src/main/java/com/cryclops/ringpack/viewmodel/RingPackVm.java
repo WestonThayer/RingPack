@@ -96,7 +96,7 @@ public class RingPackVm implements PackVm {
             in.close(); // All done reading the file
 
             if (toneFiles.size() != tempToneList.size()) {
-                // Log it
+                // We don't actually care, the users don't have to name every tone
             }
 
             // Start making the full list, starting with the TempTones to maintain the order the

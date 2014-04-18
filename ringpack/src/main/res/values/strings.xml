@@ -58,7 +58,8 @@
     <string name="info_dialog_content_version">
         Thanks for upgrading RingPack. This update addresses compatibility issues with new versions
         of Android and bugs. We tried our best to ensure a smooth transition, but if you experience
-        issues, please try uninstalling and reinstalling RingPack.
+        issues, please try uninstalling and reinstalling. To help deliver the best possible
+        experience, RingPack now collects anonymous usage data through Google Analytics.
     </string>
 
     <!-- Confirmation Dialogs -->

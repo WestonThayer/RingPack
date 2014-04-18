@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import com.cryclops.ringpack.utils.ListUtils;
 import com.cryclops.ringpack.utils.PropertySelector;
 import com.cryclops.ringpack.utils.RingtoneManagerUtils;
+import com.cryclops.ringpack.utils.ServiceUtils;
 import com.cryclops.ringpack.viewmodel.PackVm;
 import com.cryclops.ringpack.viewmodel.RingPackVm;
 
@@ -42,6 +43,7 @@ public class FilePackReaderService implements PackReaderService {
             }
             else {
                 // yell at the user maybe, but just ignore the pack
+                ServiceUtils.getLog().missingInfoFile();
             }
         }
 

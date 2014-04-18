@@ -38,13 +38,4 @@ public class AppServiceLocator implements ServiceLocator {
             map.remove(type);
         }
     }
-
-    public String getResString(int id) {
-        ResourceService r = (ResourceService)this.getService(ResourceService.class);
-        if (r != null) {
-            return r.getString(id);
-        }
-
-        return null;
-    }
 }

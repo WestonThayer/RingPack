@@ -8,14 +8,13 @@ import android.os.Environment;
 
 import com.cryclops.ringpack.R;
 import com.cryclops.ringpack.model.Tone;
-import com.cryclops.ringpack.services.AppServiceLocator;
-import com.cryclops.ringpack.services.NotificationService;
 import com.cryclops.ringpack.services.PackReaderService;
 import com.cryclops.ringpack.services.ResourceService;
 import com.cryclops.ringpack.utils.FileUtils;
 import com.cryclops.ringpack.utils.ListUtils;
 import com.cryclops.ringpack.utils.PropertySelector;
 import com.cryclops.ringpack.utils.RingtoneManagerUtils;
+import com.cryclops.ringpack.utils.ServiceUtils;
 import com.cryclops.ringpack.utils.SharedPrefUtils;
 
 import java.io.File;
@@ -59,12 +58,9 @@ public class RingActivityVm extends InitializableActivityVm {
     public boolean initializeAsync(Context baseContext) {
         if (!FileUtils.isExternalStorageWritable()) {
             // Tell the user
-            NotificationService notificationService = (NotificationService) AppServiceLocator.getInstance().getService(NotificationService.class);
-            ResourceService resourceService = (ResourceService) AppServiceLocator.getInstance().getService(ResourceService.class);
-
-            notificationService.showInfoDialog(
-                    resourceService.getString(R.string.info_dialog_title_error),
-                    resourceService.getString(R.string.info_dialog_content_sd)
+            ServiceUtils.getNotification().showInfoDialog(
+                    ServiceUtils.getResource().getString(R.string.info_dialog_title_error),
+                    ServiceUtils.getResource().getString(R.string.info_dialog_content_sd)
             );
 
             return false;
@@ -85,11 +81,9 @@ public class RingActivityVm extends InitializableActivityVm {
 
         @Override
         protected void onPreExecute() {
-            NotificationService progressService =
-                    (NotificationService)AppServiceLocator.getInstance().getService(NotificationService.class);
-            progressService.showIndeterminateProgressDialog(
-                    AppServiceLocator.getInstance().getResString(R.string.progress_title_working),
-                    AppServiceLocator.getInstance().getResString(R.string.progress_contents_finding)
+            ServiceUtils.getNotification().showIndeterminateProgressDialog(
+                    ServiceUtils.getResource().getString(R.string.progress_title_working),
+                    ServiceUtils.getResource().getString(R.string.progress_contents_finding)
             );
         }
 
@@ -101,7 +95,7 @@ public class RingActivityVm extends InitializableActivityVm {
 
             setupSdCard(ctx, packPath);
 
-            PackReaderService readerService = (PackReaderService) AppServiceLocator.getInstance().getService(PackReaderService.class);
+            PackReaderService readerService = ServiceUtils.getPackReader();
             packVms = readerService.readPacks(ctx, packPath);
 
             // Don't call setSelectedPackVm(), it'll crash because it'll try to throw up
@@ -114,18 +108,13 @@ public class RingActivityVm extends InitializableActivityVm {
 
         @Override
         protected void onPostExecute(Boolean result) {
-            NotificationService progressService =
-                    (NotificationService)AppServiceLocator.getInstance().getService(NotificationService.class);
-            progressService.hideIndeterminateProgressDialog();
+            ServiceUtils.getNotification().hideIndeterminateProgressDialog();
 
             if (!result) {
                 // alert the user
-                NotificationService notificationService = (NotificationService) AppServiceLocator.getInstance().getService(NotificationService.class);
-                ResourceService resourceService = (ResourceService) AppServiceLocator.getInstance().getService(ResourceService.class);
-
-                notificationService.showInfoDialog(
-                        resourceService.getString(R.string.info_dialog_title_error),
-                        resourceService.getString(R.string.info_dialog_content_init)
+                ServiceUtils.getNotification().showInfoDialog(
+                        ServiceUtils.getResource().getString(R.string.info_dialog_title_error),
+                        ServiceUtils.getResource().getString(R.string.info_dialog_content_init)
                 );
             }
             else {
@@ -254,10 +243,9 @@ public class RingActivityVm extends InitializableActivityVm {
      * @param packVm
      */
     public void deletePackVmAsync(final PackVm packVm, final Context ctx) {
-        NotificationService notificationService = (NotificationService) AppServiceLocator.getInstance().getService(NotificationService.class);
-        ResourceService resourceService = (ResourceService) AppServiceLocator.getInstance().getService(ResourceService.class);
+        ResourceService resourceService = ServiceUtils.getResource();
 
-        notificationService.showConfirmationDialog(
+        ServiceUtils.getNotification().showConfirmationDialog(
                 resourceService.getString(R.string.confirmation_dialog_title_warning),
                 resourceService.getString(R.string.confirmation_dialog_content_pack_delete),
                 new OnCompletedListener() {
@@ -304,6 +292,8 @@ public class RingActivityVm extends InitializableActivityVm {
             if (selectedPackVm != null) {
                 selectedPackVm.setIsSelected(true);
 
+                ServiceUtils.getLog().setRingPackStarted(selectedPackVm);
+
                 ActivatePackVmAsyncTask task = new ActivatePackVmAsyncTask();
                 task.execute(ctx);
             }
@@ -318,11 +308,11 @@ public class RingActivityVm extends InitializableActivityVm {
 
         @Override
         protected void onPreExecute() {
-            NotificationService progressService =
-                    (NotificationService)AppServiceLocator.getInstance().getService(NotificationService.class);
-            progressService.showIndeterminateProgressDialog(
-                    AppServiceLocator.getInstance().getResString(R.string.progress_title_working),
-                    AppServiceLocator.getInstance().getResString(R.string.progress_contents_activating)
+            ResourceService resourceService = ServiceUtils.getResource();
+
+            ServiceUtils.getNotification().showIndeterminateProgressDialog(
+                    resourceService.getString(R.string.progress_title_working),
+                    resourceService.getString(R.string.progress_contents_activating)
             );
         }
 
@@ -347,27 +337,26 @@ public class RingActivityVm extends InitializableActivityVm {
 
             getSelectedPackVm().moveToNextTone(ctx);
 
+            ServiceUtils.getLog().setRingPackCompleted(getSelectedPackVm());
+
             return true;
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
-            NotificationService progressService =
-                    (NotificationService)AppServiceLocator.getInstance().getService(NotificationService.class);
-            progressService.hideIndeterminateProgressDialog();
+            ServiceUtils.getNotification().hideIndeterminateProgressDialog();
 
             if (!result) {
                 // alert the user
-                NotificationService notificationService = (NotificationService) AppServiceLocator.getInstance().getService(NotificationService.class);
-                ResourceService resourceService = (ResourceService) AppServiceLocator.getInstance().getService(ResourceService.class);
+                ResourceService resourceService = ServiceUtils.getResource();
 
-                notificationService.showInfoDialog(
+                ServiceUtils.getNotification().showInfoDialog(
                         resourceService.getString(R.string.info_dialog_title_error),
                         resourceService.getString(R.string.info_dialog_content_packset)
                 );
             }
             else {
-                progressService.showShortToast(R.string.toast_pack_set);
+                ServiceUtils.getNotification().showShortToast(R.string.toast_pack_set);
                 fireOnSelectedPackVmAsyncCompleted();
             }
         }
@@ -401,7 +390,8 @@ public class RingActivityVm extends InitializableActivityVm {
 
         if (currentTone.getTitle(ctx).equals(Tone.DEFAULT_TONE_NAME)) {
             if (ctx.getContentResolver().delete(currentToneUri, null, null) != 1) {
-                // Report it
+                // Yuck, this means we're littering in the ContentProvider
+                ServiceUtils.getLog().failContentProviderDeleteRow(currentToneUri);
             }
         }
 
@@ -410,8 +400,7 @@ public class RingActivityVm extends InitializableActivityVm {
         RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, oldToneUri);
 
         // Toast the user
-        NotificationService service = (NotificationService) AppServiceLocator.getInstance().getService(NotificationService.class);
-        service.showShortToast(R.string.toast_disabled);
+        ServiceUtils.getNotification().showShortToast(R.string.toast_disabled);
 
         // Play the old tone
         Ringtone oldTone = RingtoneManagerUtils.getDefaultNotificationRingtone(ctx);
@@ -424,16 +413,16 @@ public class RingActivityVm extends InitializableActivityVm {
      */
     public static void tryPerformRotate(Context context) {
         if (FileUtils.isExternalStorageWritable()) {
-            PackReaderService readerService = (PackReaderService) AppServiceLocator.getInstance().getService(PackReaderService.class);
-
-            PackVm currentPackVm = readerService.findEnabledPackVm(context, null);
+            PackVm currentPackVm = ServiceUtils.getPackReader().findEnabledPackVm(context, null);
 
             if (currentPackVm != null) {
                 currentPackVm.moveToNextTone(context);
             }
         }
         else {
-            // Note it
+            // Note it, even though this is expected if the SD card isn't connected. We can
+            // watch this value for a spike
+            ServiceUtils.getLog().failRotateSd();
         }
     }
 }
