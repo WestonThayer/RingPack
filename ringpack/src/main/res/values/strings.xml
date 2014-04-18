@@ -44,12 +44,16 @@
     <!-- InfoDialog values -->
     <string name="info_dialog_ok">OK</string>
     <string name="info_dialog_title_error">Error</string>
+    <string name="info_dialog_title_parsing_error">Error Reading Pack</string>
     <string name="info_dialog_title_warning">Warning</string>
     <string name="info_dialog_content_init">
         Failed to find any RingPacks. Please contact the developer.
     </string>
     <string name="info_dialog_content_packset">
         Failed to enable RingPack. Please contact the developer.
+    </string>
+    <string name="info_dialog_content_info_missing_name">
+        The RingPack at %1$s\'s info.txt file is missing a name.
     </string>
     <string name="info_dialog_content_sd">
         Sorry, but we can\'t seem to find your SD card. Please ensure it\'s connected and try again.

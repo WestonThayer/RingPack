@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import com.cryclops.ringpack.R;
 import com.cryclops.ringpack.utils.ListUtils;
 import com.cryclops.ringpack.utils.PropertySelector;
 import com.cryclops.ringpack.utils.RingtoneManagerUtils;
@@ -38,8 +39,16 @@ public class FilePackReaderService implements PackReaderService {
             File infoFile = getInfoFile(packDir);
 
             if (infoFile != null) {
-                RingPackVm ringPackVm = new RingPackVm(infoFile);
-                packVms.add(ringPackVm);
+                try {
+                    RingPackVm ringPackVm = new RingPackVm(infoFile);
+                    packVms.add(ringPackVm);
+                }
+                catch (Exception ex) {
+                    ServiceUtils.getNotification().showInfoDialog(
+                            ServiceUtils.getResource().getString(R.string.info_dialog_title_parsing_error),
+                            ex.getMessage()
+                    );
+                }
             }
             else {
                 // yell at the user maybe, but just ignore the pack
@@ -116,12 +125,24 @@ public class FilePackReaderService implements PackReaderService {
                     File rootPath = tonePath.getParentFile();
                     File infoFilePath = getInfoFile(rootPath);
 
-                    if (infoFilePath == null) {
-                        throw new UnsupportedOperationException();
-                    }
+                    if (infoFilePath != null) {
+                        try {
+                            currentPackVm = new RingPackVm(infoFilePath);
+                            currentPackVm.setCurrentToneIfMatch(tonePath);
+                        }
+                        catch (Exception ex) {
+                            // We failed to read it one way or another
+                            ServiceUtils.getLog().exception(ex, false);
 
-                    currentPackVm = new RingPackVm(infoFilePath);
-                    currentPackVm.setCurrentToneIfMatch(tonePath);
+                            return null;
+                        }
+                    }
+                    else {
+                        // No info file? Who knows, but hopefully it wasn't us
+                        ServiceUtils.getLog().exception(new UnsupportedOperationException("Missing info file"), false);
+
+                        return null;
+                    }
                 }
 
                 currentPackVm.setIsSelected(true);

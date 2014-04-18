@@ -61,6 +61,19 @@ public class RingPackApplication extends Application implements Log {
     }
 
     @Override
+    public void exception(Exception ex, boolean isFatal) {
+        if (ex != null) {
+            String desc = exceptionParser.getDescription(Thread.currentThread().getName(), ex);
+            Map<String, String> map = MapBuilder.createException(
+                    desc,
+                    isFatal
+            ).build();
+
+            easyTracker.send(map);
+        }
+    }
+
+    @Override
     public void failContentProviderDeleteRow(Uri uri) {
         Map<String, String> map = MapBuilder.createEvent(
                 CATEGORY_MEDIA_STORE,

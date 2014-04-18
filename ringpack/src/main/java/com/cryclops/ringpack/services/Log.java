@@ -35,6 +35,7 @@ public interface Log {
     void activityStop(Activity activity);
 
     void exception(ActivityNotFoundException ex, boolean isFatal);
+    void exception(Exception ex, boolean isFatal);
 
     /**
      * Log when an attempt to delete a specific row from a ContentProvider fails.
