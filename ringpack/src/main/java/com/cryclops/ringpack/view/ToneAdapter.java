@@ -25,7 +25,7 @@ public class ToneAdapter extends ArrayAdapter<Tone> {
     private List<Tone> tones;
 
     public ToneAdapter(Context context, List<Tone> tones) {
-        super(context, R.layout.griditem_pack, tones);
+        super(context, R.layout.listitem_tone, tones);
         this.ctx = context;
         inflater = LayoutInflater.from(context);
         this.tones = tones;
@@ -45,19 +45,9 @@ public class ToneAdapter extends ArrayAdapter<Tone> {
 
         // CheckBox should be checked if tone is enabled
         CheckBox enabledCheckBox = (CheckBox) itemView.findViewById(R.id.listitem_tone_checkbox);
+        enabledCheckBox.setOnCheckedChangeListener(null); // Clear out the listeners here or chaos
         enabledCheckBox.setChecked(tone.isEnabled());
         enabledCheckBox.setTag(tone);
-
-        TextView nameTv = (TextView)itemView.findViewById(R.id.listitem_tone_textview);
-        nameTv.setText(tone.getName());
-
-        TextView filenameTv = (TextView) itemView.findViewById(R.id.listitem_tone_sub_textview);
-        filenameTv.setText(tone.getPathFile().getName());
-
-        // TextView should be grayed out if tone is disabled
-        setEnabled(tone.isEnabled(), nameTv, filenameTv);
-
-        //Set click listener for the checkbox, which enables/disables the Tone
         enabledCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -69,9 +59,18 @@ public class ToneAdapter extends ArrayAdapter<Tone> {
                 TextView nameTv = (TextView) parent.findViewById(R.id.listitem_tone_textview);
                 TextView filenameTv = (TextView) parent.findViewById(R.id.listitem_tone_sub_textview);
                 filenameTv.setText(tone.getPathFile().getName());
-                setEnabled(b, nameTv, filenameTv);
+                setEnabledTextViewStyle(b, nameTv, filenameTv);
             }
         });
+
+        TextView nameTv = (TextView)itemView.findViewById(R.id.listitem_tone_textview);
+        nameTv.setText(tone.getName());
+
+        TextView filenameTv = (TextView) itemView.findViewById(R.id.listitem_tone_sub_textview);
+        filenameTv.setText(tone.getPathFile().getName());
+
+        // TextView should be grayed out if tone is disabled
+        setEnabledTextViewStyle(tone.isEnabled(), nameTv, filenameTv);
 
         // Set click listener on text, which plays the Tone
         RelativeLayout wrapper = (RelativeLayout) itemView.findViewById(R.id.listitem_tone_wrapper);
@@ -87,7 +86,7 @@ public class ToneAdapter extends ArrayAdapter<Tone> {
         return  itemView;
     }
 
-    private void setEnabled(boolean value, TextView nameTv, TextView filenameTv) {
+    private void setEnabledTextViewStyle(boolean value, TextView nameTv, TextView filenameTv) {
         if (value) {
             nameTv.setTextColor(ctx.getResources().getColor(R.color.text_normal));
             filenameTv.setTextColor(ctx.getResources().getColor(R.color.text_sub_normal));
