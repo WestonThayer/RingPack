@@ -1,0 +1,8 @@
+RELEASE INSTRUCTIONS:
+
+1. In /ringpack/build.gradle, change 'storeFile' to point to the
+   ringpack.keystore file
+2. Enter the 'storePassword' and 'keyPassword'
+3. In Android Studio, change Build Varients to release
+4. In Android Studio's Terminal, > gradlew.bat assembleRelease
+5. APK will be in /build/apks/
