@@ -67,12 +67,6 @@ public interface Log {
     void setRingPackCompleted(PackVm packVm);
 
     /**
-     * Log when inserting a Ringtone for the first time because the MediaStore.Files table wasn't
-     * initialized. Uncommon case, only API >= 11.
-     */
-    void insertRingtoneFiles();
-
-    /**
      * Log when we've accidentally added way too many RingPack ringtones to the MediaStore and we
      * have to delete them all.
      */

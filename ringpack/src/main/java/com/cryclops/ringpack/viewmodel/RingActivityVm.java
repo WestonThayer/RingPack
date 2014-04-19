@@ -4,15 +4,15 @@ import android.content.Context;
 import android.media.Ringtone;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import com.cryclops.ringpack.R;
-import com.cryclops.ringpack.model.Tone;
 import com.cryclops.ringpack.services.PackReaderService;
 import com.cryclops.ringpack.services.ResourceService;
 import com.cryclops.ringpack.utils.FileUtils;
 import com.cryclops.ringpack.utils.ListUtils;
+import com.cryclops.ringpack.utils.MediaStoreUtils;
 import com.cryclops.ringpack.utils.PropertySelector;
 import com.cryclops.ringpack.utils.RingtoneManagerUtils;
 import com.cryclops.ringpack.utils.ServiceUtils;
@@ -285,6 +285,13 @@ public class RingActivityVm extends InitializableActivityVm {
 
                 if (value == null) {
                     disableRingPack(ctx);
+
+                    // Toast the user
+                    ServiceUtils.getNotification().showShortToast(R.string.toast_disabled);
+
+                    // Play the old tone
+                    Ringtone oldTone = RingtoneManagerUtils.getDefaultNotificationRingtone(ctx);
+                    if (oldTone != null) oldTone.play();
                 }
             }
 
@@ -324,10 +331,11 @@ public class RingActivityVm extends InitializableActivityVm {
             // If the current Default Notification Ringtone is not a RingPack tone, save the URI
             // so that we can re-enable it if the user chooses to disable RingPack.
             Uri curToneUri = RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx);
-            Ringtone curTone = RingtoneManagerUtils.getDefaultNotificationRingtone(ctx);
 
-            if (curTone != null) {
-                if (!curTone.getTitle(ctx).equals(Tone.DEFAULT_TONE_NAME)) {
+            if (curToneUri != null) {
+                String curToneData = MediaStoreUtils.queryForRow(ctx, curToneUri).data;
+
+                if (!curToneData.contains("com.cryclops.ringpack")) {
                     SharedPrefUtils.setRingtoneRestoreUri(ctx, curToneUri);
                 }
             }
@@ -384,17 +392,13 @@ public class RingActivityVm extends InitializableActivityVm {
      * Remove our MediaStore entries, restore the old Ringtone.
      * @param ctx
      */
-    private void disableRingPack(Context ctx) {
+    public static void disableRingPack(Context ctx) {
         // Delete all RingPack MediaStore entries
-        String selection = MediaStore.MediaColumns.TITLE + " = ?";
-        String[] args = {Tone.DEFAULT_TONE_NAME};
-        int rowsDeleted = ctx.getContentResolver().delete(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                selection,
-                args
-        );
+        MediaStoreUtils.deleteInternalRingPackTones(ctx); // old versions might have littered
 
-        if (rowsDeleted < 1) {
+
+        if (MediaStoreUtils.deleteExternalRingPackTones(ctx) < 1 &&
+                Build.VERSION.SDK_INT < 11) {
             // Yuck, this means we're littering in the ContentProvider
             ServiceUtils.getLog().failContentProviderDeleteRow(RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx));
         }
@@ -402,13 +406,6 @@ public class RingActivityVm extends InitializableActivityVm {
         // Restore the old Ringtone
         Uri oldToneUri = SharedPrefUtils.getRingtoneRestoreUri(ctx);
         RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, oldToneUri);
-
-        // Toast the user
-        ServiceUtils.getNotification().showShortToast(R.string.toast_disabled);
-
-        // Play the old tone
-        Ringtone oldTone = RingtoneManagerUtils.getDefaultNotificationRingtone(ctx);
-        if (oldTone != null) oldTone.play();
     }
 
     /**

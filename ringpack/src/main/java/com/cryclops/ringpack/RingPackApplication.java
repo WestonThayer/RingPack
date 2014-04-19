@@ -138,18 +138,6 @@ public class RingPackApplication extends Application implements Log {
     }
 
     @Override
-    public void insertRingtoneFiles() {
-        Map<String, String> map = MapBuilder.createEvent(
-                CATEGORY_MEDIA_STORE,
-                ACTION_MEDIA_STORE_INSERT,
-                "insert_ringtone_files",
-                null
-        ).build();
-
-        easyTracker.send(map);
-    }
-
-    @Override
     public void deleteRingtoneCleanup() {
         Map<String, String> map = MapBuilder.createEvent(
                 CATEGORY_MEDIA_STORE,

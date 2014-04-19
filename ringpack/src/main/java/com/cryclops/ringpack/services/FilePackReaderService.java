@@ -1,16 +1,17 @@
 package com.cryclops.ringpack.services;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.MediaStore;
 
 import com.cryclops.ringpack.R;
 import com.cryclops.ringpack.utils.ListUtils;
+import com.cryclops.ringpack.utils.MediaStoreObject;
+import com.cryclops.ringpack.utils.MediaStoreUtils;
 import com.cryclops.ringpack.utils.PropertySelector;
 import com.cryclops.ringpack.utils.RingtoneManagerUtils;
 import com.cryclops.ringpack.utils.ServiceUtils;
 import com.cryclops.ringpack.viewmodel.PackVm;
+import com.cryclops.ringpack.viewmodel.RingActivityVm;
 import com.cryclops.ringpack.viewmodel.RingPackVm;
 
 import java.io.File;
@@ -81,34 +82,24 @@ public class FilePackReaderService implements PackReaderService {
 
     @Override
     public PackVm findEnabledPackVm(Context ctx, ArrayList<PackVm> packs) {
-        PackVm currentPackVm = null;
-
         // Get the current tone's URI
         Uri toneUri = RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx);
 
         if (toneUri != null) {
             // Query the ContentProvider for it
-            String[] projection = {MediaStore.MediaColumns.DATA};
-            Cursor c = ctx.getContentResolver().query(
-                    toneUri,
-                    projection,
-                    null,
-                    null,
-                    null
-            );
+            MediaStoreObject result = MediaStoreUtils.queryForRow(ctx, toneUri);
 
-            if (c.getCount() == 1) {
-                c.moveToFirst();
-                String path = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-
-                if (!path.contains("com.cryclops.ringpack")) {
+            if (result != null) {
+                if (!result.data.contains("com.cryclops.ringpack")) {
                     // This isn't a RingPack tone, probably the user's tone
                     return null;
                 }
 
-                final File tonePath = new File(path);
+                PackVm currentPackVm = null;
+                final File tonePath = new File(result.data);
 
                 if (packs != null) {
+                    // To preserve pointers, look for an existing Pack rather than create a new one.
                     currentPackVm = ListUtils.firstOrDefault(packs, new PropertySelector<PackVm>() {
                         @Override
                         public boolean test(PackVm item) {
@@ -117,11 +108,15 @@ public class FilePackReaderService implements PackReaderService {
                     });
 
                     if (currentPackVm == null) {
-                        // In the upgrade case, it might not be present in our list of packs
+                        // Hmm. The current ringtone is a RingPack tone, but we don't know about it.
+                        // Disable RingPack so that the user gets a valid notification tone back
+                        // and we clean up the MediaStore.
+                        RingActivityVm.disableRingPack(ctx);
                         return null;
                     }
                 }
                 else {
+                    // Caller would like us to create a new RingPack.
                     File rootPath = tonePath.getParentFile();
                     File infoFilePath = getInfoFile(rootPath);
 
@@ -138,21 +133,24 @@ public class FilePackReaderService implements PackReaderService {
                         }
                     }
                     else {
-                        // No info file? Who knows, but hopefully it wasn't us
+                        // It's a RingPack tone with no info file. Get rid of it.
                         ServiceUtils.getLog().exception(new UnsupportedOperationException("Missing info file"), false);
 
+                        RingActivityVm.disableRingPack(ctx);
                         return null;
                     }
                 }
 
                 currentPackVm.setIsSelected(true);
-            } else {
-                throw new UnsupportedOperationException();
-            }
 
-            c.close();
+                return currentPackVm;
+            }
+            else {
+                // It's a URI that's not in the MediaStore. If it's us, get rid of it.
+                RingActivityVm.disableRingPack(ctx);
+            }
         }
 
-        return currentPackVm;
+        return null;
     }
 }

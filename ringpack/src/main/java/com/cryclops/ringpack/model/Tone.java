@@ -1,19 +1,18 @@
 package com.cryclops.ringpack.model;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.MediaStore;
 
+import com.cryclops.ringpack.utils.MediaStoreObject;
+import com.cryclops.ringpack.utils.MediaStoreUtils;
 import com.cryclops.ringpack.utils.RingtoneManagerUtils;
 import com.cryclops.ringpack.utils.ServiceUtils;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * A single ringtone that belongs to a Pack.
@@ -23,11 +22,6 @@ public class Tone implements Serializable {
     private boolean isEnabled;
     private String name;
     private File path;
-
-    /**
-     * The name all RingPack tones will have.
-     */
-    public static final String DEFAULT_TONE_NAME = "RingPack Tone";
 
     public Tone(boolean isEnabled, String name, String path) {
         this(isEnabled, name, new File(path));
@@ -80,154 +74,81 @@ public class Tone implements Serializable {
      * Involves ContentProvider queries. Call from a non-UI thread.
      *
      * @param ctx
-     * @return The URI of the tone in MediaStore
      */
-    public Uri setDefaultNotificationRingtone(Context ctx) {
+    public void setDefaultNotificationRingtone(Context ctx) {
         // SDK 11+ has the Files store, which already indexed... everything. Worse yet, if we
         // attempt to insert a duplicate record, it'll fail.
         // We're forced to always query for the URI of this tone
         if (Build.VERSION.SDK_INT >= 11) {
-            Uri toneUri = null;
+            MediaStoreObject tone = MediaStoreUtils.queryForFilesRingPackTone(ctx, path.getAbsolutePath());
 
-            Uri filesUri = MediaStore.Files.getContentUri("external");
-            String[] projection = {MediaStore.MediaColumns._ID, MediaStore.MediaColumns.TITLE};
-            String selection = MediaStore.MediaColumns.DATA + " = ?";
-            String[] args = {path.getAbsolutePath()};
-            Cursor c = ctx.getContentResolver().query(filesUri, projection, selection, args, null);
+            if (tone == null) {
+                // The MediaScanner hasn't run yet, fresh RingPack install. We'll need to insert.
+                tone = new MediaStoreObject();
+                tone.data = path.getAbsolutePath();
+                tone.size = path.length();
+                tone.displayName = path.getName();
 
-            if (c.getCount() == 1) {
-                c.moveToFirst();
-                long rowId = c.getLong(c.getColumnIndex(MediaStore.MediaColumns._ID));
-                String title = c.getString(c.getColumnIndex(MediaStore.MediaColumns.TITLE));
-                toneUri = MediaStore.Files.getContentUri("external", rowId);
+                tone = MediaStoreUtils.insertFiles(ctx, tone);
 
-                // Check to see if we've given the proper metadata yet
-                if (!title.equals(DEFAULT_TONE_NAME)) {
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.MediaColumns.TITLE, DEFAULT_TONE_NAME);
-                    values.put(MediaStore.Audio.Media.ARTIST, "RingPack");
-                    values.put(MediaStore.Audio.Media.IS_RINGTONE, false);
-                    values.put(MediaStore.Audio.Media.IS_NOTIFICATION, true);
-                    values.put(MediaStore.Audio.Media.IS_ALARM, false);
-                    values.put(MediaStore.Audio.Media.IS_MUSIC, false);
-
-                    if (ctx.getContentResolver().update(toneUri, values, null, null) != 1) {
-                        throw new UnsupportedOperationException();
-                    }
-                }
-            }
-            else if (c.getCount() == 0) {
-                // I suppose the MediaScanner hasn't run yet, we'll insert it
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.MediaColumns.DATA, path.getAbsolutePath());
-                values.put(MediaStore.MediaColumns.SIZE, path.length());
-                values.put(MediaStore.MediaColumns.DISPLAY_NAME, path.getName());
-                values.put(MediaStore.MediaColumns.TITLE, DEFAULT_TONE_NAME);
-                values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/ogg"); // consider application/ogg
-                values.put(MediaStore.Audio.Media.ARTIST, "RingPack");
-                values.put(MediaStore.Audio.Media.IS_RINGTONE, false);
-                values.put(MediaStore.Audio.Media.IS_NOTIFICATION, true);
-                values.put(MediaStore.Audio.Media.IS_ALARM, false);
-                values.put(MediaStore.Audio.Media.IS_MUSIC, false);
-
-                ServiceUtils.getLog().insertRingtoneFiles(); // strange case, log it
-
-                toneUri = ctx.getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
-
-                if (toneUri == null) {
+                if (tone == null)
                     throw new UnsupportedOperationException();
-                }
-            }
-            else {
-                // This is truly unexpected.
-                throw new UnsupportedOperationException();
             }
 
-            c.close();
-
-            RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, toneUri);
-
-            return toneUri;
+            RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, tone.uri);
         }
         // The legacy way lets us keep a single entry and change it's path
         else {
-            Uri toneUri = null;
+            MediaStoreObject tone = null;
 
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.MediaColumns.DATA, path.getAbsolutePath());
-            values.put(MediaStore.MediaColumns.SIZE, path.length());
-            values.put(MediaStore.MediaColumns.DISPLAY_NAME, path.getName());
+            ArrayList<MediaStoreObject> results = MediaStoreUtils.queryForExternalRingPackTones(ctx);
 
-            // Search for anything with our Title
-            String[] projection = {MediaStore.MediaColumns._ID};
-            String selection = MediaStore.MediaColumns.TITLE + " = ?";
-            String[] args = {DEFAULT_TONE_NAME};
-            Cursor c = ctx.getContentResolver().query(
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    projection,
-                    selection,
-                    args,
-                    null);
+            if (results.size() == 1) {
+                // Best case, there's only one entry there that we're maintaining, we just have to
+                // update it to point to a new ringtone on disk
+                tone = results.get(0);
 
-            if (c.getCount() == 1) {
-                c.moveToFirst();
-                String rowId = c.getString(c.getColumnIndex(MediaStore.MediaColumns._ID));
-                toneUri = Uri.withAppendedPath(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, rowId);
+                tone.data = path.getAbsolutePath();
+                tone.size = path.length();
+                tone.displayName = path.getName();
 
-                if (ctx.getContentResolver().update(toneUri, values, null, null) != 1) {
+                if (!MediaStoreUtils.update(ctx, tone)) {
                     throw new UnsupportedOperationException();
                 }
             }
-            else if (c.getCount() == 0) {
+            else if (results.size() == 0) {
                 // First time, we gotta add it
-                values.put(MediaStore.MediaColumns.TITLE, DEFAULT_TONE_NAME);
-                values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/ogg"); // consider application/ogg
-                values.put(MediaStore.Audio.Media.ARTIST, "RingPack");
-                values.put(MediaStore.Audio.Media.IS_RINGTONE, false);
-                values.put(MediaStore.Audio.Media.IS_NOTIFICATION, true);
-                values.put(MediaStore.Audio.Media.IS_ALARM, false);
-                values.put(MediaStore.Audio.Media.IS_MUSIC, false);
+                tone = new MediaStoreObject();
+                tone.data = path.getAbsolutePath();
+                tone.size = path.length();
+                tone.displayName = path.getName();
 
-                toneUri = ctx.getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
+                tone = MediaStoreUtils.insertExternal(ctx, tone);
 
-                if (toneUri == null) {
+                if (tone == null) {
                     throw new UnsupportedOperationException();
                 }
             }
             else {
-                // That's bad. Delete all of our entries.
+                // We put more than one in? Bad on us, let's clean up the external store.
                 ServiceUtils.getLog().deleteRingtoneCleanup();
 
-                int rowsDeleted = ctx.getContentResolver().delete(
-                        MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                        selection,
-                        args
-                );
-
-                if (rowsDeleted < 2) {
+                if (MediaStoreUtils.deleteExternalRingPackTones(ctx) < 2) {
                     throw new UnsupportedOperationException();
                 }
 
                 // call ourselves to do a proper set
-                c.close(); // don't leak
-                return setDefaultNotificationRingtone(ctx);
+                setDefaultNotificationRingtone(ctx);
+                return;
             }
-
-            c.close();
 
             Uri currentToneUri = RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx);
 
             // Assuming that if we just updated the tone _data column, we don't need to reset
             // anything, Android should just call the new one
-            if (currentToneUri == null || !toneUri.equals(currentToneUri)) {
-                // Apparently this is best practice, although I have no idea what the Media Scanner
-                // does with the new data
-                ctx.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, toneUri));
-
-                RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, toneUri);
+            if (currentToneUri == null || !tone.uri.equals(currentToneUri)) {
+                RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, tone.uri);
             }
-
-            return toneUri;
         }
     }
 
