@@ -61,10 +61,9 @@
     </string>
     <string name="info_dialog_title_version">Welcome!</string>
     <string name="info_dialog_content_version">
-        Thanks for upgrading RingPack. This update addresses compatibility issues with new versions
-        of Android and bugs. We tried our best to ensure a smooth transition, but if you experience
-        issues, please try uninstalling and reinstalling. To help deliver the best possible
-        experience, RingPack now collects anonymous usage data through Google Analytics.
+        Thanks for upgrading RingPack. I fixed the issue where tones were enabling and disabling
+        seemingly at random (sorry about that). Also fixed the crash on boot that some users were
+        experiencing. If you have issues, please email support@cryclops.com.
     </string>
 
     <!-- Confirmation Dialogs -->
