@@ -12,6 +12,10 @@
         android:title="@string/optionAbout"
         android:orderInCategory="100"
         app:showAsAction="never"/>
+    <item android:id="@+id/action_next"
+        android:title="@string/optionNext"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
     <item android:id="@+id/action_disable"
         android:title="@string/optionDisable"
         android:orderInCategory="100"

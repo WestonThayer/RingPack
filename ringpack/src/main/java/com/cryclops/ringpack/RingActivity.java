@@ -22,6 +22,7 @@ import com.cryclops.ringpack.services.AppServiceLocator;
 import com.cryclops.ringpack.services.NotificationService;
 import com.cryclops.ringpack.services.ResourceService;
 import com.cryclops.ringpack.utils.ListUtils;
+import com.cryclops.ringpack.utils.RingtoneManagerUtils;
 import com.cryclops.ringpack.utils.ServiceUtils;
 import com.cryclops.ringpack.utils.SharedPrefUtils;
 import com.cryclops.ringpack.view.ConfirmationDialogFragment;
@@ -248,6 +249,11 @@ public class RingActivity extends ActionBarActivity implements NotificationServi
                 startActivity(i);
 
                 return  true;
+            case R.id.action_next:
+                RingActivityVm.tryPerformRotate(getBaseContext());
+                RingtoneManagerUtils.getDefaultNotificationRingtone(getBaseContext()).play();
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

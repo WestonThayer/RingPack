@@ -27,6 +27,7 @@
     <string name="optionAbout">About</string>
     <string name="optionSettings">Settings</string>
     <string name="optionDisable">Disable</string>
+    <string name="optionNext">Next</string>
 
     <!-- Context menu for RingPacks -->
     <string name="ring_pack_context_edit">Edit</string>
