@@ -19,6 +19,7 @@ public interface Log {
     // categories and actions for Ringtones
     static final String CATEGORY_RINGTONE = "ringtone";
     static final String ACTION_RINGTONE_ROTATE_FAIL = "rotate_fail";
+    static final String ACTION_RINGTONE_BAD_URI = "bad_uri";
 
     // categories and actions for RingPacks
     static final String CATEGORY_RINGPACK = "ringpack";
@@ -48,6 +49,12 @@ public interface Log {
      * mounted.
      */
     void failRotateSd();
+
+    /**
+     * Log when the current default Ringtone is null.
+     * @param uri
+     */
+    void badRingtoneUri(Uri uri);
 
     /**
      * Log when a RingPack directory doesn't have an info file.

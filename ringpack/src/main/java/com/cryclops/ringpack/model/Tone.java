@@ -78,77 +78,65 @@ public class Tone implements Serializable {
     public void setDefaultNotificationRingtone(Context ctx) {
         // SDK 11+ has the Files store, which already indexed... everything. Worse yet, if we
         // attempt to insert a duplicate record, it'll fail.
-        // We're forced to always query for the URI of this tone
+        // Simply delete the tone if it's in Files.
         if (Build.VERSION.SDK_INT >= 11) {
-            MediaStoreObject tone = MediaStoreUtils.queryForFilesRingPackTone(ctx, path.getAbsolutePath());
+            int rowsDeleted = MediaStoreUtils.deleteFilesRingPackTone(ctx, path.getAbsolutePath());
+
+            if (rowsDeleted > 1) {
+                throw new UnsupportedOperationException();
+            }
+        }
+
+        // Keep a single entry in Audio.Media and change it's path
+        MediaStoreObject tone = null;
+
+        ArrayList<MediaStoreObject> results = MediaStoreUtils.queryForExternalRingPackTones(ctx);
+
+        if (results.size() == 1) {
+            // Best case, there's only one entry there that we're maintaining, we just have to
+            // update it to point to a new ringtone on disk
+            tone = results.get(0);
+
+            tone.data = path.getAbsolutePath();
+            tone.size = path.length();
+            tone.displayName = path.getName();
+
+            if (!MediaStoreUtils.update(ctx, tone)) {
+                throw new UnsupportedOperationException();
+            }
+        }
+        else if (results.size() == 0) {
+            // First time, we gotta add it
+            tone = new MediaStoreObject();
+            tone.data = path.getAbsolutePath();
+            tone.size = path.length();
+            tone.displayName = path.getName();
+
+            tone = MediaStoreUtils.insertExternal(ctx, tone);
 
             if (tone == null) {
-                // The MediaScanner hasn't run yet, fresh RingPack install. We'll need to insert.
-                tone = new MediaStoreObject();
-                tone.data = path.getAbsolutePath();
-                tone.size = path.length();
-                tone.displayName = path.getName();
-
-                tone = MediaStoreUtils.insertFiles(ctx, tone);
-
-                if (tone == null)
-                    throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException();
             }
-
-            RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, tone.uri);
         }
-        // The legacy way lets us keep a single entry and change it's path
         else {
-            MediaStoreObject tone = null;
+            // We put more than one in? Bad on us, let's clean up the external store.
+            ServiceUtils.getLog().deleteRingtoneCleanup();
 
-            ArrayList<MediaStoreObject> results = MediaStoreUtils.queryForExternalRingPackTones(ctx);
-
-            if (results.size() == 1) {
-                // Best case, there's only one entry there that we're maintaining, we just have to
-                // update it to point to a new ringtone on disk
-                tone = results.get(0);
-
-                tone.data = path.getAbsolutePath();
-                tone.size = path.length();
-                tone.displayName = path.getName();
-
-                if (!MediaStoreUtils.update(ctx, tone)) {
-                    throw new UnsupportedOperationException();
-                }
-            }
-            else if (results.size() == 0) {
-                // First time, we gotta add it
-                tone = new MediaStoreObject();
-                tone.data = path.getAbsolutePath();
-                tone.size = path.length();
-                tone.displayName = path.getName();
-
-                tone = MediaStoreUtils.insertExternal(ctx, tone);
-
-                if (tone == null) {
-                    throw new UnsupportedOperationException();
-                }
-            }
-            else {
-                // We put more than one in? Bad on us, let's clean up the external store.
-                ServiceUtils.getLog().deleteRingtoneCleanup();
-
-                if (MediaStoreUtils.deleteExternalRingPackTones(ctx) < 2) {
-                    throw new UnsupportedOperationException();
-                }
-
-                // call ourselves to do a proper set
-                setDefaultNotificationRingtone(ctx);
-                return;
+            if (MediaStoreUtils.deleteExternalRingPackTones(ctx) < 2) {
+                throw new UnsupportedOperationException();
             }
 
-            Uri currentToneUri = RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx);
+            // call ourselves to do a proper set
+            setDefaultNotificationRingtone(ctx);
+            return;
+        }
 
-            // Assuming that if we just updated the tone _data column, we don't need to reset
-            // anything, Android should just call the new one
-            if (currentToneUri == null || !tone.uri.equals(currentToneUri)) {
-                RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, tone.uri);
-            }
+        Uri currentToneUri = RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx);
+
+        // Assuming that if we just updated the tone _data column, we don't need to reset
+        // anything, Android should just call the new one
+        if (currentToneUri == null || !tone.uri.equals(currentToneUri)) {
+            RingtoneManagerUtils.setDefaultNotificationRingtone(ctx, tone.uri);
         }
     }
 

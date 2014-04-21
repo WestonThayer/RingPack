@@ -98,6 +98,20 @@ public class RingPackApplication extends Application implements Log {
     }
 
     @Override
+    public void badRingtoneUri(Uri uri) {
+        String content = uri == null ? "null" : uri.toString();
+
+        Map<String, String> map = MapBuilder.createEvent(
+                CATEGORY_RINGTONE,
+                ACTION_RINGTONE_BAD_URI,
+                content,
+                null
+        ).build();
+
+        easyTracker.send(map);
+    }
+
+    @Override
     public void missingInfoFile() {
         Map<String, String> map = MapBuilder.createEvent(
                 CATEGORY_RINGPACK,

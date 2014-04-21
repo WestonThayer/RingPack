@@ -49,10 +49,9 @@ public class MediaStoreUtils {
     }
 
     private static MediaStoreObject queryForRow(Context ctx, Uri tableUri, String data) {
-        String[] projection = {MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DATA};
         String selection = MediaStore.MediaColumns.DATA + " = ?";
         String[] args = {data};
-        ArrayList<MediaStoreObject> results = query(ctx, tableUri, projection, selection, args);
+        ArrayList<MediaStoreObject> results = query(ctx, true, tableUri, selection, args);
 
         if (results.size() == 1) {
             return results.get(0);
@@ -73,8 +72,7 @@ public class MediaStoreUtils {
      * @throws java.lang.IllegalArgumentException If there is more than one result for the row
      */
     public static MediaStoreObject queryForRow(Context ctx, Uri rowUri) {
-        String[] projection = {MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DATA};
-        ArrayList<MediaStoreObject> results = query(ctx, rowUri, projection, null, null);
+        ArrayList<MediaStoreObject> results = query(ctx, false, rowUri, null, null);
 
         if (results.size() == 1) {
             return results.get(0);
@@ -94,14 +92,27 @@ public class MediaStoreUtils {
      * @return
      */
     private static ArrayList<MediaStoreObject> queryForRingPackTones(Context ctx, Uri tableUri) {
-        String[] projection = {MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DATA};
         String selection = MediaStore.MediaColumns.DATA + " LIKE ?";
         String[] args = {"%com.cryclops.ringpack%"};
-        return query(ctx, tableUri, projection, selection, args);
+        return query(ctx, true, tableUri, selection, args);
     }
 
-    private static ArrayList<MediaStoreObject> query(Context ctx, Uri tableUri, String[] projection, String selection, String[] args) {
-        Cursor c = ctx.getContentResolver().query(tableUri, projection, selection, args, null);
+    private static ArrayList<MediaStoreObject> query(
+            Context ctx,
+            boolean isTableUri,
+            Uri uri,
+            String selection,
+            String[] args) {
+        if (uri == null) {
+            throw new IllegalArgumentException("uri cannot be null!");
+        }
+
+        String[] projection = {
+                MediaStore.MediaColumns._ID,
+                MediaStore.MediaColumns.DATA
+        };
+
+        Cursor c = ctx.getContentResolver().query(uri, projection, selection, args, null);
 
         if (c == null) throw new UnsupportedOperationException("Query failed to return a Cursor!");
 
@@ -116,7 +127,9 @@ public class MediaStoreUtils {
             int dataIndex = c.getColumnIndex(MediaStore.MediaColumns.DATA);
             o.data = c.getString(dataIndex);
 
-            o.uri = Uri.withAppendedPath(tableUri, Long.toString(o.id));
+            int isNotificationIndex = c.getColumnIndex(MediaStore.Audio.Media.IS_NOTIFICATION);
+
+            o.uri = isTableUri ? Uri.withAppendedPath(uri, Long.toString(o.id)) : uri;
 
             list.add(o);
         }
@@ -140,7 +153,7 @@ public class MediaStoreUtils {
     }
 
     private static MediaStoreObject insert(Context ctx, Uri tableUri, MediaStoreObject o) {
-        ContentValues values = buildValues(o.data, o.size, o.displayName);
+        ContentValues values = buildValues(o);
 
         Uri u = ctx.getContentResolver().insert(tableUri, values);
 
@@ -154,17 +167,19 @@ public class MediaStoreUtils {
     }
 
     public static boolean update(Context ctx, MediaStoreObject o) {
-        ContentValues values = buildValues(o.data, o.size, o.displayName);
+        ContentValues values = buildValues(o);
 
         return ctx.getContentResolver().update(o.uri, values, null, null) == 1;
     }
 
-    private static ContentValues buildValues(String data, long size, String displayName) {
+    private static ContentValues buildValues(MediaStoreObject o) {
         ContentValues values = new ContentValues();
-        values.put(MediaStore.MediaColumns.DATA, data);
-        values.put(MediaStore.MediaColumns.SIZE, size);
-        values.put(MediaStore.MediaColumns.DISPLAY_NAME, displayName);
+        values.put(MediaStore.MediaColumns.DATA, o.data);
+        values.put(MediaStore.MediaColumns.SIZE, o.size);
+        values.put(MediaStore.MediaColumns.DISPLAY_NAME, o.displayName);
         values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/ogg"); // consider application/ogg
+        values.put(MediaStore.Audio.Media.IS_NOTIFICATION, true);
+        values.put(MediaStore.Audio.Media.TITLE, "RingPack Tone");
 
         return values;
     }
@@ -182,5 +197,17 @@ public class MediaStoreUtils {
         String[] args = {"%com.cryclops.ringpack%"};
 
         return ctx.getContentResolver().delete(tableUri, selection, args);
+    }
+
+    public static int deleteFilesRingPackTone(Context ctx, String data) {
+        String selection = MediaStore.MediaColumns.DATA + " = ?";
+        String[] args = {data};
+
+        if (Build.VERSION.SDK_INT >= 11) {
+            return ctx.getContentResolver().delete(MediaStore.Files.getContentUri("external"), selection, args);
+        }
+        else {
+            throw new UnsupportedOperationException("Can only be called from API >= 11!");
+        }
     }
 }

@@ -29,4 +29,29 @@ public class MediaStoreObject {
      * The unique URI for this row.
      */
     public Uri uri;
+
+    public boolean isRingPackRow() {
+        return data.contains("com.cryclops.ringpack");
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder b = new StringBuilder();
+        b.append("_ID: ");
+        b.append(id);
+        b.append("\n");
+        b.append("DATA: ");
+        b.append(data);
+        b.append("\n");
+        b.append("SIZE: ");
+        b.append(size);
+        b.append("\n");
+        b.append("DISPLAY_NAME: ");
+        b.append(displayName);
+        b.append("\n");
+        b.append("URI: ");
+        b.append(uri.toString());
+
+        return b.toString();
+    }
 }

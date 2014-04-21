@@ -1,6 +1,7 @@
 package com.cryclops.ringpack.viewmodel;
 
 import android.content.Context;
+import android.media.Ringtone;
 
 import com.cryclops.ringpack.R;
 import com.cryclops.ringpack.model.RingPack;
@@ -216,7 +217,18 @@ public class RingPackVm implements PackVm {
             // Set to the first enabled tone and play it
             ringPack.setCurrentTone(findNextEnabledTone(0));
             ringPack.getCurrentTone().setDefaultNotificationRingtone(ctx);
-            RingtoneManagerUtils.getDefaultNotificationRingtone(ctx).play();
+
+            Ringtone r = RingtoneManagerUtils.getDefaultNotificationRingtone(ctx);
+
+            if (r != null) {
+                r.play();
+            }
+            else {
+                // Why the heck did we fail to set the ringtone
+                ServiceUtils.getLog().badRingtoneUri(RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx));
+
+                RingActivityVm.disableRingPack(ctx);
+            }
         }
         else {
             int curIndex = ringPack.getTones().indexOf(ringPack.getCurrentTone());
