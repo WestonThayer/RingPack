@@ -61,9 +61,8 @@
     </string>
     <string name="info_dialog_title_version">Welcome!</string>
     <string name="info_dialog_content_version">
-        Thanks for upgrading RingPack. I fixed the issue where tones were enabling and disabling
-        seemingly at random (sorry about that). Also fixed the crash on boot that some users were
-        experiencing. If you have issues, please email support@cryclops.com.
+        Thanks for upgrading RingPack. It should work for Samsung users now. If you have issues,
+        please email support@cryclops.com.
     </string>
 
     <!-- Confirmation Dialogs -->
