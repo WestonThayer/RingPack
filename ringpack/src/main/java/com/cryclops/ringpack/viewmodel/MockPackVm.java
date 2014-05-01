@@ -61,4 +61,9 @@ public class MockPackVm implements PackVm {
     public ArrayList<Tone> getTones() {
         return null;
     }
+
+    @Override
+    public boolean hasEnabledTones() {
+        return false;
+    }
 }

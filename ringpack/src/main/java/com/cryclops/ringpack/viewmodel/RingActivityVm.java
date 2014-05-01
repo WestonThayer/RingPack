@@ -298,12 +298,21 @@ public class RingActivityVm extends InitializableActivityVm {
             selectedPackVm = value;
 
             if (selectedPackVm != null) {
-                selectedPackVm.setIsSelected(true);
+                if (selectedPackVm.hasEnabledTones()) {
+                    selectedPackVm.setIsSelected(true);
 
-                ServiceUtils.getLog().setRingPackStarted(selectedPackVm);
+                    ServiceUtils.getLog().setRingPackStarted(selectedPackVm);
 
-                ActivatePackVmAsyncTask task = new ActivatePackVmAsyncTask();
-                task.execute(ctx);
+                    ActivatePackVmAsyncTask task = new ActivatePackVmAsyncTask();
+                    task.execute(ctx);
+                }
+                else {
+                    // Alert the user that they can't select this pack because no tones are enabled
+                    ServiceUtils.getNotification().showInfoDialog(
+                            ServiceUtils.getResource().getString(R.string.info_dialog_title_error),
+                            ServiceUtils.getResource().getString(R.string.info_dialog_content_not_enabled)
+                    );
+                }
             }
         }
     }

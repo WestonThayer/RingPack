@@ -46,4 +46,10 @@ public interface PackVm extends Serializable {
      * @return
      */
     ArrayList<Tone> getTones();
+
+    /**
+     * Check if this pack has any enabled tones (the user could have disabled them all).
+     * @return
+     */
+    boolean hasEnabledTones();
 }

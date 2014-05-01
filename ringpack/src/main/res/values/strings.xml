@@ -64,6 +64,10 @@
         Thanks for upgrading RingPack. It should work for Samsung users now. If you have issues,
         please email support@cryclops.com.
     </string>
+    <string name="info_dialog_content_not_enabled">
+        It looks like you\'ve disabled all the tones in this RingPack. Please enable at least one
+        to use it.
+    </string>
 
     <!-- Confirmation Dialogs -->
     <string name="confirmation_dialog_no">No</string>

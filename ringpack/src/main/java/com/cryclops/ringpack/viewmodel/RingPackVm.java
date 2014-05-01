@@ -266,12 +266,27 @@ public class RingPackVm implements PackVm {
 
     /**
      * Helper to return the next enabled Tone.
-     * @param curIndex
-     * @return
+     * @param curIndex Index of a new tone. If it's not enabled, keep going
+     * @return The tone, or null if there are no enabled tones
      */
     private Tone findNextEnabledTone(int curIndex) {
+        int startingIndex = curIndex;
+
+        if (curIndex >= ringPack.getTones().size()) {
+            curIndex = 0;
+        }
+
         while (!ringPack.getTones().get(curIndex).isEnabled()) {
             curIndex++;
+
+            if (curIndex >= ringPack.getTones().size()) {
+                curIndex = 0;
+            }
+
+            if (curIndex == startingIndex) {
+                // We've completed a full loop. Bail so we don't go forever.
+                return null;
+            }
         }
 
         return ringPack.getTones().get(curIndex);
@@ -285,5 +300,10 @@ public class RingPackVm implements PackVm {
     @Override
     public ArrayList<Tone> getTones() {
         return ringPack.getTones();
+    }
+
+    @Override
+    public boolean hasEnabledTones() {
+        return findNextEnabledTone(0) != null;
     }
 }
