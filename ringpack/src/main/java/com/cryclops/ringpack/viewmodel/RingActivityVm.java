@@ -12,6 +12,7 @@ import com.cryclops.ringpack.services.PackReaderService;
 import com.cryclops.ringpack.services.ResourceService;
 import com.cryclops.ringpack.utils.FileUtils;
 import com.cryclops.ringpack.utils.ListUtils;
+import com.cryclops.ringpack.utils.MediaStoreObject;
 import com.cryclops.ringpack.utils.MediaStoreUtils;
 import com.cryclops.ringpack.utils.PropertySelector;
 import com.cryclops.ringpack.utils.RingtoneManagerUtils;
@@ -342,10 +343,14 @@ public class RingActivityVm extends InitializableActivityVm {
             Uri curToneUri = RingtoneManagerUtils.getDefaultNotificationRingtoneUri(ctx);
 
             if (curToneUri != null) {
-                String curToneData = MediaStoreUtils.queryForRow(ctx, curToneUri).data;
+                MediaStoreObject row = MediaStoreUtils.queryForRow(ctx, curToneUri);
 
-                if (!curToneData.contains("com.cryclops.ringpack")) {
-                    SharedPrefUtils.setRingtoneRestoreUri(ctx, curToneUri);
+                if (row != null) {
+                    String curToneData = row.data;
+
+                    if (!curToneData.contains("com.cryclops.ringpack")) {
+                        SharedPrefUtils.setRingtoneRestoreUri(ctx, curToneUri);
+                    }
                 }
             }
             else {
