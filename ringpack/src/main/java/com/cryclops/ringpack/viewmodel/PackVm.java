@@ -52,4 +52,10 @@ public interface PackVm extends Serializable {
      * @return
      */
     boolean hasEnabledTones();
+
+    /**
+     * Check if this pack contains ALL enabled tones.
+     * @return
+     */
+    boolean hasAllEnabledTones();
 }

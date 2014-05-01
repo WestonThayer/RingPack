@@ -31,4 +31,24 @@ public class EditActivityVm {
     public String getBasePath() {
         return packVm.getRootPath().getPath();
     }
+
+    /**
+     * Set all tones to Enabled.
+     */
+    public void enableAll() {
+        switchAll(true);
+    }
+
+    /**
+     * Set all tones to Disabled.
+     */
+    public void disableAll() {
+        switchAll(false);
+    }
+
+    private void switchAll(boolean value) {
+        for (Tone t : packVm.getTones()) {
+            t.setIsEnabled(value);
+        }
+    }
 }

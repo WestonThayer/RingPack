@@ -306,4 +306,15 @@ public class RingPackVm implements PackVm {
     public boolean hasEnabledTones() {
         return findNextEnabledTone(0) != null;
     }
+
+    @Override
+    public boolean hasAllEnabledTones() {
+        for (Tone t : ringPack.getTones()) {
+            if (!t.isEnabled()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

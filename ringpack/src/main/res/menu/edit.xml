@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.cryclops.ringpack.EditActivity">
+
+    <item android:id="@+id/action_select"
+        android:icon="@drawable/ic_action_select_all"
+        android:title="@string/optionSelectAll"
+        app:showAsAction="ifRoom"/>
+
+</menu>

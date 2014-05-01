@@ -66,4 +66,9 @@ public class MockPackVm implements PackVm {
     public boolean hasEnabledTones() {
         return false;
     }
+
+    @Override
+    public boolean hasAllEnabledTones() {
+        return false;
+    }
 }
